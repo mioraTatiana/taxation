@@ -1,14 +1,16 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Login from "./Page composants/Pages communs/Login/Login"
 import './App.css'
 
 function App() {
   return (
     <div>
-      <h1>Mon application React</h1>
-      <p>Bienvenue dans mon projet frontend.</p>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

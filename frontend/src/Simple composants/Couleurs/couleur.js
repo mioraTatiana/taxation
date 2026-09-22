@@ -1,0 +1,10 @@
+export const bleu = '#0E87CC'
+ export const vert = '#017371'
+export const rouge = '#E53A40'
+export const vertFonce = '#83D6D4'
+export const bleuFonce = "#B8D8EB"
+export const rougeFonce = "#CC869F"
+export const jaune = '#FFAB0F'
+export const vertActive = '#048243'
+export const jauneReactive = '#FFAB0F'
+export const rougeDesactive = '#CF0134'

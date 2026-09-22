@@ -1,0 +1,156 @@
+@import url('../../../font/font.css');
+
+body{
+    padding: 0;
+    margin: 0;
+
+}
+
+.Accueil{
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 20px;
+   position: relative;
+}
+.diagramme{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    position: relative;
+    top: 20px;
+
+}
+
+
+
+.diagrammeAccueil{
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2 rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    background-color:#f2faff ;
+}
+
+.sexCompteur{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+ 
+}
+
+.Division{
+    display: flex;
+    flex-direction: row;
+justify-content: space-between;
+padding: 30px;
+}
+
+
+.divCompteur{
+    display: flex;
+    flex-direction: column;
+ 
+    height: 70px;
+    /* border: 1px solid gainsboro; */
+    border-radius: 10px;
+    padding: 20px;
+
+    color: #f2faff;
+}
+
+
+
+
+#stagiaireDiv{
+    background-color:#cdf153 ;
+    color: #3a5134;
+    box-shadow: 1px 1px 2px #3a5134;
+
+}
+
+#stagiaireDiv{
+    background-color: #FFAB0F ;
+    color: #C65102;
+    box-shadow: 1px 1px 2px #C65102;
+
+}
+
+
+#DemandeDiv{
+    background-color: #00dffc;
+    color: #005f6b;
+    box-shadow: 1px 1px 2px #005f6b;
+
+}
+.iconNombre{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.Compteur{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.compteurNombre{
+   color: #f2faff;
+   font-size:xx-large;
+}
+
+.titreCompteur{
+  font-size: x-large;
+}
+
+.bouttonDiv{
+    background-color: #f4f7f7;
+    border: none;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+
+#actualiser{
+    background-color: #cdf153;
+    color: #3a5134;
+    box-shadow: 1px 1px 2px #3a5134;
+
+    height: 111px;
+    width: 250px;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    /*padding: 20px;*/
+
+    font-size:x-large;
+    margin-top: 6px;
+    margin-left: 5px;
+    /* border: 10px solid #3a5134; */
+
+
+}
+
+#ancienDiv{
+    background-color: #FE46A5;
+}
+
+
+@media (max-width : 1000px) {
+    .Accueil{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .Compteur, .diagramme{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+    }
+
+
+}

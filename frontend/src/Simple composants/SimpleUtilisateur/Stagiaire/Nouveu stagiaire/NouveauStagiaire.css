@@ -1,0 +1,81 @@
+@import url("../../../../font/font.css");
+
+body{
+    margin: 0;
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.nouveauStagiaire{
+
+    padding-top: 0;
+    background-color: #F4F7F7;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 45px;
+    left: 370px; 
+
+}
+
+ .bouttonClass, .divFormulaire{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.FormulaireStagiaire{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.page{
+    font-family: lora;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.background-content {
+    text-align: center;
+    padding: 50px;
+  
+ }
+
+ .radiosexe{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+ }
+
+ .radioFM{
+    display: flex;
+    flex-direction: row;
+    flex: -1;
+    margin-left: 10px;
+ }
+
+ .backFormulaire{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+@media (max-width : 1000px) {
+    .FormulaireStagiaire{
+        position:static;
+    
+    }
+}

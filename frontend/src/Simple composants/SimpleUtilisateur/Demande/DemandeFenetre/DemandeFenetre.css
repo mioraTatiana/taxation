@@ -1,0 +1,62 @@
+.demandeFenetre{
+    z-index: 1;
+}
+
+.demandeul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: 70px;
+    left: 10px;
+}
+
+.demandeLI{
+    background-color: #CFF0DA;
+    padding: 10px;
+    font-family: lora;
+}
+
+.demandeLI:hover{
+    cursor: pointer;
+    border-bottom: #7d37be;
+}
+
+#nouveau{
+    margin-right: 2px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+
+#demande{
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.activeD{
+    background-color: #CFF0DA;
+    padding: 10px;
+    font-family: lora;
+    border-bottom:5px solid #1F4E5F;
+}
+
+.activeD:hover{
+    cursor: pointer;
+}
+
+.corpsDemande{
+    position: relative;
+    top: 60px;
+    left: 10px;
+}
+
+@media (max-width : 1000px) {
+    .corpsDemande{
+        position: relative;
+        top: -145px;
+        left: -450px;
+    }
+}

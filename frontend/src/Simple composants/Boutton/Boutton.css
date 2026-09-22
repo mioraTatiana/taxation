@@ -1,0 +1,22 @@
+.boutton{
+    width: 265px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    margin-top: 5px;
+
+}
+
+.texte {
+    color: red;
+    margin: 0;
+    padding: 0;
+}
+
+.BouttonDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,45 @@
+@font-face{
+    font-family: 'OpenSansRegular';
+    src: url('./OpenSans-Regular.ttf')  format('truetype');
+}
+
+@font-face {
+    font-family: 'hundi';
+    src: url('./HindSiliguri-Regular.ttf');
+}
+
+
+
+@font-face {
+    font-family: 'cabin';
+    src: url("./Cabin-VariableFont_wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: 'inter';
+    src: url("./Inter-VariableFont_slnt,wght.ttf");
+}
+
+@font-face {
+    font-family: 'lora';
+    src: url("./Lora-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: 'lato';
+    src: url("./Lato-Regular.ttf");
+}
+
+
+td{
+    font-family: OpenSansRegular;
+
+}
+
+th{
+    font-family: Lato;
+}
+
+button:hover{
+    cursor: pointer;
+}

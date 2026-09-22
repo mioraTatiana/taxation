@@ -1,0 +1,45 @@
+.body{
+    margin: 0;
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+
+}
+.ServiceFormulaireCoprs{
+    display: flex;
+    flex-direction: column;
+    background-color: #F4F7F7;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+.bouttonservice{
+    border: none;
+    background-color: #F4F7F7;
+}
+
+
+.backFormulaire{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.confirmation{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
