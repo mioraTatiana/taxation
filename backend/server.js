@@ -13,6 +13,6 @@ app.get("/", (req, res) => {
     res.send("Serveur Express fonctionne !");
 });
 
-app.listen(8080, () => {
-    console.log("Serveur démarré sur http://localhost:8080");
+app.listen(8082, () => {
+    console.log("Serveur démarré sur http://localhost:8082");
 });
