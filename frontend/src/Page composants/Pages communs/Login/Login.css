@@ -1,0 +1,186 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+.connexionPage {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #E9EEF2;
+}
+
+
+/* Bloc blanc de connexion */
+
+.connexionBox {
+    width:22%;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    padding: 20px 20px 25px 25px;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Logo */
+
+.logoBox {
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 5px;
+
+    
+}
+
+
+
+#logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* Titre */
+
+.titreConnexion {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.titreConnexion h4 {
+    margin: 0;
+
+    color: #008FD0;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    font-size: 20px;
+    font-weight:500;
+
+    text-align: center;
+}
+
+.titreConnexion p {
+    margin: 5px 0 0 0;
+
+    color: #008FD0;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    font-size: 20px;
+}
+
+
+/* Formulaire */
+
+.formConnexion {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.formInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Mot de passe oublié */
+
+.motPasseOublie {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: -2px;
+    margin-bottom: 8px;
+}
+
+.motPasseOublie a {
+    color: #008FD0;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/* Partie bouton + inscription */
+
+.connexionActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Bouton connexion */
+
+.btnConnexion {
+    width: 90px;
+    height: 30px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #08A9E6;
+    color: white;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.20);
+}
+
+.btnConnexion:hover {
+    background-color: #078FC5;
+}
+
+
+/* Lien inscription */
+
+.inscriptionLink {
+    color: #333;
+
+    font-size: 14px;
+
+    text-decoration: underline;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
