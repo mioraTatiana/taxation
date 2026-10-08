@@ -1,0 +1,28 @@
+/* À importer une seule fois dans index.js / main.jsx :
+   import "./theme/theme.css";
+   Ces valeurs doivent rester identiques à celles de couleur.js */
+
+   html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+:root {
+  --bleu: #0a84f5;
+  --bleu-titre: #0a6cc9;
+  --bleu-pale: #d6eafd;
+  --fond-page: #eaf1f8;
+  --fond-survol: #dcecfb;
+  --fond-actif: #cfe5fb;
+  --rouge: #ff3b45;
+  --rouge-pale: #ffd3d6;
+  --fond-ligne: #eef3f8;        /* lignes grises bleutées de la table */
+  --fond-ligne-survol: #d9e8f7; /* ligne survolée par le curseur */
+}
+
+body {
+  background-color: var(--fond-page);
+}

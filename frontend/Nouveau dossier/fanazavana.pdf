@@ -1,0 +1,32 @@
+J'ai créé l'interface admin avec le menu, le body, la table et les pop-ups, en 11 fichiers (liste en bas). Je n'ai pas pu l'exécuter ici, donc elle n'est pas testée. GitHub a refusé l'accès automatique à votre dépôt : je n'ai pas pu lire votre structure de dossiers, donc les chemins d'import sont à adapter.
+
+**Interface (`Layout.jsx`)**
+- Elle est faite de deux `div` simples, un pour le menu et un pour le body, avec du flex et sans grid.
+- Le menu affiche les entrées du rôle connecté, définies dans `menus.js` :
+  - **Admin :** Utilisateur, Zone, Train, Type de train.
+  - **Taxateur :** Nouvelle facture, Facture, Statistique, Client, Marchandise, Tarif.
+  - **Directeur ou chef de division :** Recette, Statistique, Tableau de bord.
+- Le rôle (Administrateur, Taxateur…) est écrit sous le nom, dans la carte de déconnexion.
+- Pour ajouter un menu, il suffit d'ajouter une ligne dans `menus.js`, car `MenuItem.jsx` est un composant unique (icône Lucide, texte, chemin).
+
+**Table et pop-ups**
+- **`TableDonnees`** est réutilisable. Sa prop `actions` est une fonction qui retourne 0, 1 ou 2 boutons `{ texte, couleur, onClick }`.
+- **`Popup`** est un modèle unique. Son contenu fait office de confirmation ou de changement de valeur selon ce qu'on y met.
+- **`Utilisateurs.jsx`** gère les quatre actions :
+  - **Ajouter :** pop-up de changement de valeur (choix du type d'utilisateur avec votre `SelectInput`).
+  - **Refuser, Activer, Désactiver :** pop-up de confirmation.
+- Il utilise Axios, avec des toasts pour les retours. Le drapeau `UTILISER_DONNEES_TEST = true` affiche des données d'exemple en attendant votre API.
+
+**Points à régler**
+- **Statut manquant :** votre table `usertable` n'a pas de colonne pour savoir si un compte est en attente, actif ou inactif. J'ai supposé une colonne `statut` 
+(`en_attente`, `actif`, `inactif`). Sans elle, les boutons Ajouter, Refuser, Activer et Désactiver ne peuvent pas s'afficher selon l'état du compte.
+- **Mot de passe masqué :** je n'affiche pas `motpasse` dans la table. Il ne devrait jamais être visible, même pour un admin, et il doit être haché en base.
+- **Connexion :** `Layout.jsx` lit l'utilisateur dans `sessionStorage` sous la clé `"utilisateur"`, avec `nomutilisateur`, `typeutilisateur` et `image`. 
+Votre page de login doit l'y enregistrer, et sans lui le Layout redirige vers `/`. Pour tester, copiez ceci dans la console :
+  `sessionStorage.setItem("utilisateur", JSON.stringify({nomutilisateur:"Miora Tatiana", typeutilisateur:"admin"}))`
+- **Routes :** dans `App.jsx`, faites une `<Route element={<Layout />}>` avec des routes enfants dont les chemins sont ceux de `menus.js`, par exemple `/admin/utilisateur` pour `<Utilisateurs />`.
+- **Logo :** `Layout.jsx` utilise `/logo.png`, à remplacer par votre logo.
+- **Couleurs :** je garde les teintes de la maquette, et `vert` et `rouge` viennent de votre fichier `couleur`.
+- **Imports :** `Utilisateurs.jsx` importe `SelectInput` depuis `../SelectInput/SelectInput`, à adapter à votre arborescence.
+
+Fichiers (dossier `admin/`) : `Layout`, `MenuItem`, `menus.js`, `TableDonnees`, `Popup` et `Utilisateurs`, chacun avec son `.css` sauf `menus.js`.

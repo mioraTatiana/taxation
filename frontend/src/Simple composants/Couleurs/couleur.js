@@ -1,10 +1,20 @@
-export const bleu = '#0E87CC'
- export const vert = '#017371'
-export const rouge = '#E53A40'
-export const vertFonce = '#83D6D4'
-export const bleuFonce = "#B8D8EB"
-export const rougeFonce = "#CC869F"
-export const jaune = '#FFAB0F'
-export const vertActive = '#048243'
-export const jauneReactive = '#FFAB0F'
-export const rougeDesactive = '#CF0134'
+// Même noms qu'avant : rien à changer dans vos composants.
+// Seules les valeurs sont plus vives (bleu saturé + gris pâle bleuté).
+
+export const bleu = "#0A84F5";
+export const vert = "#00A99D";
+export const rouge = "#FF3B45";
+export const jaune = "#FFB400";
+
+// Versions pâles (utilisées pour les boutons désactivés)
+export const bleuFonce = "#A9D4FA";
+export const vertFonce = "#8FE3DB";
+export const rougeFonce = "#F5A3B8";
+
+export const vertActive = "#00B35A";
+export const jauneReactive = "#FFB400";
+export const rougeDesactive = "#E5003B";
+
+// Nouvelles couleurs du thème
+export const bleuTitre = "#0A6CC9";
+export const fondPage = "#EAF1F8"; // gris pâle bleuté

@@ -1,0 +1,224 @@
+.Layout {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+/* ----- Menu ----- */
+.LayoutMenu {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.LayoutLogo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.LayoutLogo img {
+  height: 56px;
+}
+
+.LayoutLogo h2 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bleu-titre);
+}
+
+.LayoutListeMenus {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ----- Carte profil + déconnexion ----- */
+.LayoutProfil {
+  margin: 16px;
+  padding: 16px;
+  text-align: center;
+  background-color: #f3f3f3;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.LayoutAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.LayoutAvatarVide {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bleu-pale);
+  color: var(--bleu-titre);
+}
+
+.LayoutNom {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.LayoutRole {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.LayoutDeconnexion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--rouge-pale);
+  color: var(--rouge);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ----- Body ----- */
+.LayoutBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.LayoutEntete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  color: var(--bleu-titre);
+  font-size: 18px;
+  background-color: #ffffff;
+}
+
+.LayoutContenu {
+  flex: 1;
+  padding: 24px;
+  overflow: auto;
+  background-color: var(--fond-page);
+  border-top-left-radius: 24px;
+}
+
+.LayoutCarte {
+  min-height: 100%;
+  padding: 24px 32px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 32px;
+}
+
+/* Hauteur correcte sur mobile (barre d'adresse) */
+.Layout {
+  height: 100dvh;
+}
+
+/* Éléments utilisés seulement sur tablette / téléphone */
+.LayoutBoutonMenu {
+  display: none;
+  align-items: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--bleu-titre);
+  cursor: pointer;
+}
+
+.LayoutFond {
+  display: none;
+}
+
+/* ===== Ordinateur à petit écran ===== */
+@media (max-width: 1200px) {
+  .LayoutMenu {
+    width: 220px;
+  }
+
+  .LayoutEntete {
+    padding: 12px 20px;
+  }
+
+  .LayoutContenu {
+    padding: 16px;
+  }
+
+  .LayoutCarte {
+    padding: 20px 24px;
+  }
+}
+
+/* ===== Tablette : le menu devient un tiroir ===== */
+@media (max-width: 992px) {
+  .LayoutMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 900;
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  .LayoutMenuOuvert {
+    transform: translateX(0);
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .LayoutFond {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 800;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .LayoutBoutonMenu {
+    display: flex;
+  }
+
+  .LayoutContenu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+/* ===== Téléphone ===== */
+@media (max-width: 576px) {
+  .LayoutMenu {
+    width: 80vw;
+    max-width: 280px;
+  }
+
+  .LayoutEntete {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .LayoutContenu {
+    padding: 8px;
+  }
+
+  .LayoutCarte {
+    padding: 16px;
+    border-radius: 20px;
+  }
+}

@@ -1,10 +1,11 @@
 /* Couleurs prises de la maquette : à remplacer par vos variables si besoin */
 .CreeComptePage {
-  --fond-page: #e9edf1;
+  --fond-page-compte: var(--fond-page);
   --fond-carte: #ffffff;
-  --couleur-titre: #166b8f;
+  --couleur-titre: var(--bleu-titre);
 
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,11 +54,7 @@
   text-align: center;
 }
 
-@media (max-width: 400px) {
-  .CreeCompteCarte {
-    padding: 20px 20px 28px;
-  }
-}
+
 
 /* Messages d'erreur de validation (Zod) */
 .champErreur {
@@ -69,4 +66,25 @@
 .CreeCompteRetour {
   display: flex;
   align-items: center;
+}
+
+/* Tablette : carte un peu plus large */
+@media (min-width: 577px) and (max-width: 992px) {
+  .CreeCompteCarte {
+    max-width: 380px;
+  }
+}
+
+/* Téléphone : la carte prend toute la largeur */
+@media (max-width: 576px) {
+  .CreeComptePage {
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  .CreeCompteCarte {
+    max-width: 100%;
+    padding: 20px 20px 28px;
+    border-radius: 24px;
+  }
 }
