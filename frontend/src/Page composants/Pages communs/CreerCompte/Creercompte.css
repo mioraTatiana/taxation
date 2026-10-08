@@ -1,0 +1,72 @@
+/* Couleurs prises de la maquette : à remplacer par vos variables si besoin */
+.CreeComptePage {
+  --fond-page: #e9edf1;
+  --fond-carte: #ffffff;
+  --couleur-titre: #166b8f;
+
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  background-color: var(--fond-page);
+}
+
+.CreeCompteCarte {
+  width: 100%;
+  max-width: 332px;
+  padding: 24px 38px 32px;
+  box-sizing: border-box;
+  background-color: var(--fond-carte);
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.CreeCompteEntete {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.CreeCompteRetour {
+  position: absolute;
+  left: -8px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #1f2937;
+  padding: 4px 8px;
+}
+
+.CreeCompteTitre {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--couleur-titre);
+  text-align: center;
+}
+
+@media (max-width: 400px) {
+  .CreeCompteCarte {
+    padding: 20px 20px 28px;
+  }
+}
+
+/* Messages d'erreur de validation (Zod) */
+.champErreur {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.CreeCompteRetour {
+  display: flex;
+  align-items: center;
+}

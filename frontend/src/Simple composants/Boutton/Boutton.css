@@ -1,22 +1,35 @@
-.boutton{
-    width: 265px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    margin-top: 5px;
+.BouttonDiv {
+  width: 100%;
+  margin-top: 12px;
+}
 
+.boutton {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+.boutton:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.boutton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.boutton:disabled {
+  cursor: not-allowed;
 }
 
 .texte {
-    color: red;
-    margin: 0;
-    padding: 0;
-}
-
-.BouttonDiv{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  margin: 8px 0 0;
+  font-size: 12px;
+  text-align: center;
+  color: #6b7280;
 }

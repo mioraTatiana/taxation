@@ -9,24 +9,24 @@ import {
   rougeFonce,
 } from "../Couleurs/couleur";
 
-const Boutton = ({ type, text, name, onClick, couleur, disabled }) => {
-  const [texteDiseable, setTexteDiseable] = useState("");
+function Boutton({ type, text, name, onClick, couleur, disabled }) {
+  const [texteDisable, setTexteDisable] = useState("");
   const [couleurBoutton, setCouleurBoutton] = useState(couleur);
 
-  // Utilisation d'un useEffect pour gérer l'état disabled
+  // Gère l'état désactivé : message + couleur foncée
   useEffect(() => {
     if (disabled) {
-      setTexteDiseable("Veuillez remplir tous les champs");
+      setTexteDisable("Veuillez remplir tous les champs");
 
       if (couleur === bleu) {
-        setCouleurBoutton(bleuFonce); // Couleur pour le bouton désactivé
+        setCouleurBoutton(bleuFonce);
       } else if (couleur === vert) {
-        setCouleurBoutton(vertFonce); // Si la couleur initiale est verte
+        setCouleurBoutton(vertFonce);
       } else if (couleur === rouge) {
-        setCouleurBoutton(rougeFonce); // Si la couleur initiale est rouge
+        setCouleurBoutton(rougeFonce);
       }
     } else {
-      setTexteDiseable("");
+      setTexteDisable("");
       setCouleurBoutton(couleur);
     }
   }, [disabled, couleur]);
@@ -43,13 +43,10 @@ const Boutton = ({ type, text, name, onClick, couleur, disabled }) => {
       >
         {text}
       </button>
-      {disabled && (
-        <div>
-          <p className="texte">{texteDiseable}</p>
-        </div>
-      )}
+
+      {disabled && <p className="texte">{texteDisable}</p>}
     </div>
   );
-};
+}
 
 export default Boutton;
