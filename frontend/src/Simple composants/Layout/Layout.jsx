@@ -3,7 +3,8 @@ import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { User, LogOut, Menu } from "lucide-react";
 import "./Layout.css";
-import MenuItem from "./MenuItem";
+import MenuItem from "../MenuItem/MenuItem";
+import logo from "../../image/logo.png"
 import { menusDuRole, libelleDuRole } from "./menus";
 
 // Utilisateur connecté, gardé dans le sessionStorage au moment du login :
@@ -53,7 +54,7 @@ function Layout() {
       {/* ===== Div du menu ===== */}
       <div className={menuOuvert ? "LayoutMenu LayoutMenuOuvert" : "LayoutMenu"}>
         <div className="LayoutLogo">
-          <img src="/logo.png" alt="E-TaxeColis" />
+          <img src={logo} alt="E-TaxeColis" />
           <h2>E-TaxeColis</h2>
         </div>
 

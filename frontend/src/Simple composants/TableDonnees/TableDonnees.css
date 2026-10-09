@@ -14,7 +14,7 @@
 /* En-tête : texte en gras, simple ligne en dessous */
 .Table th {
   padding: 14px 16px;
-  text-align: left;
+  text-align: center;
   font-weight: 700;
   border-bottom: 2px solid #cfd8e3;
 }
@@ -23,6 +23,7 @@
 .Table td {
   padding: 14px 16px;
   border-bottom: 1px solid #dde4ec;
+  text-align: center;
   vertical-align: middle;
 }
 
@@ -53,6 +54,7 @@
 /* Boutons d'action */
 .TableActions {
   display: flex;
+  justify-content: center;
   gap: 6px;
 }
 

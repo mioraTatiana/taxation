@@ -222,3 +222,8 @@
     border-radius: 20px;
   }
 }
+
+/* Titres des pages (dans la carte blanche / Outlet) en noir */
+.LayoutCarte h2 {
+  color: #000000;
+}

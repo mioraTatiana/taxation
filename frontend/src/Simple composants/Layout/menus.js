@@ -10,6 +10,8 @@ import {
   CreditCard,
   Wallet,
   LayoutDashboard,
+  Signpost,
+  Boxes,
 } from "lucide-react";
 
 // Pour ajouter un menu : ajoutez simplement une ligne dans la liste du rôle concerné.
@@ -18,6 +20,7 @@ import {
 const MENUS_ADMIN = [
   { texte: "Utilisateur", chemin: "/admin/utilisateur", icone: Users },
   { texte: "Zone", chemin: "/admin/zone", icone: MapPin },
+  { texte: "Destination", chemin: "/admin/destination", icone: Signpost },
   { texte: "Train", chemin: "/admin/train", icone: TrainFront },
   { texte: "Type de train", chemin: "/admin/type-train", icone: Tags },
 ];
@@ -28,6 +31,7 @@ const MENUS_TAXATEUR = [
   { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
   { texte: "Client", chemin: "/taxateur/client", icone: Users },
   { texte: "Marchandise", chemin: "/taxateur/marchandise", icone: Package },
+  { texte: "Type de marchandise", chemin: "/taxateur/type-marchandise", icone: Boxes },
   { texte: "Tarif", chemin: "/taxateur/tarif", icone: CreditCard },
 ];
 

@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Form, Spinner } from "react-bootstrap";
 import { ArrowLeft } from "lucide-react";
-import "./creercompte.css";
+import "./Creecompte.css";
 import CustomInput from "../../../Simple composants/Input/Input";
 import SelectInput from "../../../Simple composants/SelectInput/SelectInput";
 import Boutton from "../../../Simple composants/Boutton/Boutton";
@@ -16,31 +16,20 @@ import { bleu } from "../../../Simple composants/Couleurs/couleur";
 const CLE_BROUILLON = "brouillonInscription";
 const URL_INSCRIPTION = "/api/utilisateurs/inscription"; // TODO : votre URL d'API
 
-// Options du select : à adapter à vos types d'utilisateur
+// Rôles proposés à l'inscription (valeurs = colonne typeutilisateur de la base).
+// "admin" n'y figure pas : un admin n'est pas créé par une inscription publique.
 const TYPES_UTILISATEUR = [
-  {
-    value: "client",
-    label: "Client",
-    description: "Envoie et suit ses colis",
-  },
-  {
-    value: "agent",
-    label: "Agent",
-    description: "Traite et taxe les colis",
-  },
-  {
-    value: "administrateur",
-    label: "Administrateur",
-    description: "Gère les comptes et les paramètres",
-  },
+  { value: "taxateur", label: "Taxateur", description: "Crée les factures et gère les clients" },
+  { value: "directeur", label: "Directeur", description: "Consulte recettes et statistiques" },
+  { value: "chef_division", label: "Chef de division", description: "Consulte recettes et statistiques" },
 ];
 
 // Validation Zod
 const schemaInscription = z.object({
-  nomComplet: z.string().trim().min(2, "Au moins 2 caractères"),
-  nomUtilisateur: z.string().trim().min(3, "Au moins 3 caractères"),
+  nomComplet: z.string().trim().min(2, "Au moins 2 caractères").max(100, "100 caractères maximum"),
+  nomUtilisateur: z.string().trim().min(3, "Au moins 3 caractères").max(20, "20 caractères maximum"),
   typeUtilisateur: z.string().min(1, "Choisissez un type d’utilisateur"),
-  email: z.string().trim().email("Adresse email invalide"),
+  email: z.string().trim().email("Adresse email invalide").max(50, "50 caractères maximum"),
   motDePasse: z.string().min(8, "Au moins 8 caractères"),
   image: z
     .instanceof(File, { message: "Choisissez une image" })
@@ -124,9 +113,13 @@ function CreeCompte() {
     if (isSubmitting) return;
 
     const formData = new FormData();
-    Object.entries(donnees).forEach(([cle, valeur]) => {
-      formData.append(cle, valeur);
-    });
+    // Clés = noms des colonnes de usertable (motpasse doit être haché par l'API)
+    formData.append("nomcomplet", donnees.nomComplet);
+    formData.append("nomutilisateur", donnees.nomUtilisateur);
+    formData.append("typeutilisateur", donnees.typeUtilisateur);
+    formData.append("emailutilisteur", donnees.email);
+    formData.append("motpasse", donnees.motDePasse);
+    formData.append("image", donnees.image);
 
     try {
       await axios.post(URL_INSCRIPTION, formData, {

@@ -5,16 +5,16 @@ import "./Utilisateurs.css";
 import TableDonnees from "../../../Simple composants/TableDonnees/TableDonnees";
 import Popup from "../../../Simple composants/Popup/Popup";
 import SelectInput from "../../../Simple composants/SelectInput/SelectInput";
-import { vert, rouge } from "../../../Simple composants/Couleurs/couleur";
+import { vert, rouge } from "../../../Simple composants//Couleurs/couleur";
 
 const URL_UTILISATEURS = "/api/utilisateurs"; // TODO : votre URL d'API
 const UTILISER_DONNEES_TEST = true; // mettre false quand l'API est prête
 
 // Noms des champs = colonnes de usertable (+ "statut", voir remarque)
 const DONNEES_TEST = [
-  { iduser: "USR03", nomutilisateur: "Miora", typeutilisateur: "taxateur", emailutilisateur: "ttnmiora@gmail.com", statut: "en_attente" },
-  { iduser: "USR01", nomutilisateur: "Miora", typeutilisateur: "taxateur", emailutilisateur: "ttnmiora@gmail.com", statut: "actif" },
-  { iduser: "USR02", nomutilisateur: "Rakoto", typeutilisateur: "directeur", emailutilisateur: "rakoto@gmail.com", statut: "inactif" },
+  { iduser: "USER03", nomutilisateur: "Miora", typeutilisateur: "taxateur", emailutilisteur: "ttnmiora@gmail.com", statut: "en_attente" },
+  { iduser: "USER01", nomutilisateur: "Miora", typeutilisateur: "taxateur", emailutilisteur: "ttnmiora@gmail.com", statut: "actif" },
+  { iduser: "USER02", nomutilisateur: "Rakoto", typeutilisateur: "directeur", emailutilisteur: "rakoto@gmail.com", statut: "inactif" },
 ];
 
 const TYPES_UTILISATEUR = [
@@ -72,7 +72,7 @@ const COLONNES = [
   { titre: "ID", cle: "iduser" },
   { titre: "Nom", cle: "nomutilisateur" },
   { titre: "Type", cle: "typeutilisateur", afficher: libelleType },
-  { titre: "Email", cle: "emailutilisateur" },
+  { titre: "Email", cle: "emailutilisteur" },
   { titre: "Statut", cle: "statut", afficher: libelleStatut },
 ];
 
@@ -177,7 +177,7 @@ function Utilisateurs() {
             {ACTIONS[action].message}
           </p>
           <p>
-            <strong>{selection.nomutilisateur}</strong> – {selection.emailutilisateur}
+            <strong>{selection.nomutilisateur}</strong> – {selection.emailutilisteur}
           </p>
 
           {/* Pop up de changement de valeur : uniquement pour "Ajouter" */}
