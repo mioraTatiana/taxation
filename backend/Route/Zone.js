@@ -75,7 +75,7 @@ zone.get("/:idzone", (req, res) => {
 zone.put("/modifier/:idzone", (req, res) => {
     const idzone = req.params.idzone;
     const {libellezone, kilometrage} = req.body;
-    const query = "UPDATE public.zoneedestination SET libellezone = $1, kilometrage = $2 WHERE idzone=$3 RETURNING *";
+    const query = "UPDATE public.zonedestination SET libellezone = $1, kilometrage = $2 WHERE idzone=$3 RETURNING *";
 
     pool.query(query, [libellezone, kilometrage, idzone], (err, result)=> {
         if (err) {
@@ -87,20 +87,33 @@ zone.put("/modifier/:idzone", (req, res) => {
 
 })
 
-zone.delete("/supprimer/:idzone", (req, res)=>{
-    const idzone= req.params.idzone;
-    const query = "DELETE FROM public.zonedestination WHERE idzone = $1"
 
-    pool.query(query, [idzone], (err, result)=>{
+zone.delete("/supprimer/:idzone", (req, res) => {
+    const idzone = req.params.idzone;
+
+    const query = "DELETE FROM public.zonedestination WHERE idzone = $1 RETURNING * ";
+
+    pool.query(query, [idzone], (err, result) => {
         if (err) {
-          res.status(500).send("Erreur lors de la suppression de la table zonedestination");
-        } else if (result.rows.length === 0) {
-          res.status(404).send(" Aucune donnée trouvée ");
-        } else {
-          res.json(result.rows);
+            return res.status(500).json({
+                message: "Erreur lors de la suppression de la zone",
+                erreur: err.message
+            });
         }
-    })
-})
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Aucune zone trouvée"
+            });
+        }
+
+        res.status(200).json({
+            message: "Zone supprimée avec succès !",
+            zone: result.rows[0]
+        });
+    });
+});
+
 
 
 module.exports = zone;

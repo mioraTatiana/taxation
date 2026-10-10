@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Form, Spinner } from "react-bootstrap";
 import { ArrowLeft } from "lucide-react";
-import "./Creecompte.css";
+import "./Creercompte.css";
 import CustomInput from "../../../Simple composants/Input/Input";
 import SelectInput from "../../../Simple composants/SelectInput/SelectInput";
 import Boutton from "../../../Simple composants/Boutton/Boutton";

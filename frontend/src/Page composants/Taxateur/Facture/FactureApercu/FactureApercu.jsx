@@ -1,7 +1,7 @@
 import React from "react";
 import "./FactureApercu.css";
-import Fcelogo from "../../../Image/logo.png";
-import { formaterMontant, nombreEnLettres } from "./calculsFacture";
+import Fcelogo from "../../../../Image/logo.png";
+import { formaterMontant, nombreEnLettres } from "../../../../Simple composants/Outils/calculsFacture";
 
 function FactureApercu({
   client,

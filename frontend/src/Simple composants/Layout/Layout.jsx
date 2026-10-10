@@ -7,6 +7,7 @@ import MenuItem from "../MenuItem/MenuItem";
 import logo from "../../image/logo.png"
 import { menusDuRole, libelleDuRole } from "./menus";
 
+
 // Utilisateur connecté, gardé dans le sessionStorage au moment du login :
 // { nomutilisateur: "Miora Tatiana", typeutilisateur: "admin", image: "..." }
 function lireUtilisateur() {
@@ -16,48 +17,48 @@ function lireUtilisateur() {
     return null;
   }
 }
-
+ 
 function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOuvert, setMenuOuvert] = useState(false); // tiroir (tablette / téléphone)
   const utilisateur = lireUtilisateur();
-
+ 
   if (!utilisateur) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/authentification" replace />;
   }
-
+ 
   const menus = menusDuRole(utilisateur.typeutilisateur);
   const menuActif = menus.find((menu) => menu.chemin === location.pathname);
-
+ 
   // Page absente du menu de ce rôle (ex: "/") : on va au premier menu du rôle
   if (menus.length > 0 && !menuActif) {
     return <Navigate to={menus[0].chemin} replace />;
   }
   const IconeActive = menuActif ? menuActif.icone : null;
-
+ 
   function fermerMenu() {
     setMenuOuvert(false);
   }
-
+ 
   function deconnecter() {
     sessionStorage.removeItem("utilisateur");
     toast.success("Vous êtes déconnecté");
-    navigate("/");
+    navigate("/authentification");
   }
-
+ 
   return (
     <div className="Layout">
       {/* Fond sombre derrière le tiroir (visible seulement sur tablette / téléphone) */}
       {menuOuvert && <div className="LayoutFond" onClick={fermerMenu} />}
-
+ 
       {/* ===== Div du menu ===== */}
       <div className={menuOuvert ? "LayoutMenu LayoutMenuOuvert" : "LayoutMenu"}>
         <div className="LayoutLogo">
-          <img src={logo} alt="E-TaxeColis" />
+          <img src="/logo.png" alt="E-TaxeColis" />
           <h2>E-TaxeColis</h2>
         </div>
-
+ 
         <div className="LayoutListeMenus" onClick={fermerMenu}>
           {menus.map((menu) => (
             <MenuItem
@@ -68,7 +69,7 @@ function Layout() {
             />
           ))}
         </div>
-
+ 
         <div className="LayoutProfil">
           {utilisateur.image ? (
             <img
@@ -91,7 +92,7 @@ function Layout() {
           </button>
         </div>
       </div>
-
+ 
       {/* ===== Div du body ===== */}
       <div className="LayoutBody">
         <div className="LayoutEntete">
@@ -106,7 +107,7 @@ function Layout() {
           {IconeActive && <IconeActive size={24} />}
           <span>{menuActif ? menuActif.texte : ""}</span>
         </div>
-
+ 
         <div className="LayoutContenu">
           <div className="LayoutCarte">
             <Outlet />
@@ -116,5 +117,6 @@ function Layout() {
     </div>
   );
 }
-
+ 
 export default Layout;
+ 

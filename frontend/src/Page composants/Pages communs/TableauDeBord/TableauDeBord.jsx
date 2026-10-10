@@ -4,7 +4,7 @@ import "./TableauDeBord.css";
 import FiltreDates from "../../../Simple composants/FiltreDates/FiltreDates";
 import CarteKpi from "../../../Simple composants/CarteKpi/CarteKpi";
 import GraphiqueBarres from "../../../Simple composants/GraphiqueBarres/GraphiqueBarres";
-import { useFactures } from "../../../Simple composants/Outils//useFactures";
+import { useFactures } from "../../../Simple composants/Outils/useFactures";
 import {
   totauxGlobaux,
   comparaisonMois,
@@ -12,8 +12,8 @@ import {
   sommeParCle,
   recetteDe,
   poidsDe,
-} from "./calculsStats";
-import { formaterMontant } from "./calculsFacture";
+} from "../../../Simple composants/Outils/calculsStats";
+import { formaterMontant } from "../../../Simple composants/Outils/calculsFacture";
 
 // Un bloc du tableau de bord : titre + contenu
 function Bloc({ titre, children }) {

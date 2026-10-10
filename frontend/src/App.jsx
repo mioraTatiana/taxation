@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Layout from "./Simple composants/Layout/Layout";
+import Login from "./Page composants/Pages communs/Login/Login";
+import CreerCompte from "./Page composants/Pages communs/CreerCompte/CreerCompte";
 import Utilisateurs from "./Page composants/Admin/Utilisateurs/Utilisateurs";
 import Zones from "./Page composants/Admin/Zones/Zones";
 import Destination from "./Page composants/Admin/Destination/Destination";
@@ -18,23 +20,33 @@ import TableauDeBord from "./Page composants/Pages communs/TableauDeBord/Tableau
 import Statistique from "./Page composants/Pages communs/Statistique/Statistique";
 import PageVide from "./PageVide";
 
-// ===== POUR VISUALISER LES PAGES (à supprimer quand le login est prêt) =====
-// Changez "typeutilisateur" puis rechargez la page :
-// "Admin", "Taxateur", "Directeur" ou "Chef de division"
-sessionStorage.setItem(
-  "utilisateur",
-  JSON.stringify({
-    nomutilisateur: "Miora Tatiana",
-    typeutilisateur: "taxateur",
-    image: "",
-  })
-);
+// ===== MODE TEST (à passer à false quand le login est prêt) =====
+// true  : un utilisateur de test est connecté d'office (on ne passe pas par /authentification)
+// false : il faut se connecter pour voir les pages
+// Pour changer de rôle en mode test : "admin", "taxateur", "directeur" ou "chef_division"
+const MODE_TEST = true;
+
+if (MODE_TEST) {
+  sessionStorage.setItem(
+    "utilisateur",
+    JSON.stringify({
+      nomutilisateur: "Miora Tatiana",
+      typeutilisateur: "directeur",
+      image: "",
+    })
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster />
       <Routes>
+        {/* ----- Pages publiques (sans menu) ----- */}
+        <Route path="/authentification" element={<Login />} />
+        <Route path="/inscription" element={<CreerCompte />} />
+
+        {/* ----- Pages avec menu (utilisateur connecté) ----- */}
         <Route element={<Layout />}>
           {/* ----- Admin ----- */}
           <Route path="/admin/utilisateur" element={<Utilisateurs />} />
@@ -55,9 +67,10 @@ function App() {
           {/* ----- Directeur et chef de division ----- */}
           <Route path="/direction/recette" element={<Recette />} />
           <Route path="/direction/statistique" element={<Statistique />} />
-          <Route path="/direction/tableau-de-bord" element={<TableauDeBord/>} />
+          <Route path="/direction/tableau-de-bord" element={<TableauDeBord />} />
 
-          {/* Toute autre adresse (dont "/") : le Layout redirige vers le 1er menu du rôle */}
+          {/* Toute autre adresse (dont "/") : le Layout redirige vers le 1er menu du rôle,
+              ou vers /authentification si personne n'est connecté */}
           <Route path="*" element={<PageVide titre="Page introuvable" />} />
         </Route>
       </Routes>

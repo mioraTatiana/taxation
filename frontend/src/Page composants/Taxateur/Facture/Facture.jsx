@@ -6,9 +6,9 @@ import TableDonnees from "../../../Simple composants/TableDonnees/TableDonnees";
 import ImpressionPortail from "../../../Simple composants/ImpressionPortail/ImpressionPortail";
 import { bleu } from "../../../Simple composants/Couleurs/couleur";
 import FactureApercu from "./FactureApercu/FactureApercu";
-import { useFactures } from "./useFactures";
-import { formaterDate } from "./calculsStats";
-import { formaterMontant } from "./calculsFacture";
+import { useFactures } from "../../../Simple composants/Outils/useFactures";
+import { formaterDate } from "../../../Simple composants/Outils/calculsStats";
+import { formaterMontant } from "../../../Simple composants/Outils/calculsFacture";
 
 function attendre(millisecondes) {
   return new Promise((resolve) => setTimeout(resolve, millisecondes));
