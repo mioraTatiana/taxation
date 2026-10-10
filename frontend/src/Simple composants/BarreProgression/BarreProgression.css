@@ -1,0 +1,29 @@
+.BarreProgression {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.BarreProgressionPiste {
+  flex: 1;
+  height: 10px;
+  overflow: hidden;
+  background-color: #dbe3ec;
+  border-radius: 999px;
+}
+
+.BarreProgressionRemplie {
+  height: 100%;
+  background-color: var(--vert-actif);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.BarreProgressionTexte {
+  min-width: 42px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}

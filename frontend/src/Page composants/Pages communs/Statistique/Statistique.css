@@ -1,0 +1,83 @@
+.StatistiqueFiltre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.StatistiqueImprimer {
+  min-width: 140px;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.StatistiqueImprimer:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.StatistiqueMessage {
+  color: #6b7280;
+}
+
+.StatistiqueGroupe {
+  margin-bottom: 8px;
+}
+
+.StatistiqueDate {
+  margin: 8px 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--bleu-titre);
+}
+
+/* ----- Contenu imprimé ----- */
+.StatistiqueImpression {
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.StatistiqueImpressionEntete {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #000000;
+}
+
+.StatistiqueImpressionEntete img {
+  height: 64px;
+}
+
+.StatistiqueImpressionEntete h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  color: #000000;
+}
+
+.StatistiqueImpressionEntete p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.StatistiqueImpressionTotal {
+  margin-top: 12px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 576px) {
+  .StatistiqueImprimer {
+    width: 100%;
+  }
+}

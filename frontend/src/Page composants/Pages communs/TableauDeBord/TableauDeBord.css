@@ -1,0 +1,28 @@
+.TableauKpis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.TableauBlocs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.TableauBloc {
+  flex: 1 1 340px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #dde4ec;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.TableauBlocTitre {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bleu-titre);
+}

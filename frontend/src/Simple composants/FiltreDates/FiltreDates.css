@@ -1,0 +1,43 @@
+.FiltreDatesTitre {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: var(--bleu-titre);
+}
+
+.FiltreDatesChamps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 20px;
+}
+
+.FiltreDatesChamp {
+  min-width: 160px;
+}
+
+.FiltreDatesChamp input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.FiltreDatesReinitialiser {
+  margin-bottom: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--bleu);
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Version verticale : champs l'un sous l'autre (fenêtre d'impression) */
+.FiltreDatesVertical {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.FiltreDatesVertical .FiltreDatesChamp {
+  min-width: 0;
+}

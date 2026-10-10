@@ -1,0 +1,70 @@
+.Etapes {
+  display: flex;
+  align-items: flex-start;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 8px 0 52px;
+}
+
+.Etape {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  display: flex;
+  justify-content: center;
+}
+
+.EtapeCercle {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--gris-etape);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.EtapeCercleActif {
+  background-color: var(--vert-actif);
+}
+
+.EtapeLibelle {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  width: 150px;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 14px;
+  color: var(--gris-etape);
+}
+
+.EtapeLibelleActif {
+  color: var(--vert-actif);
+}
+
+.EtapeLigne {
+  flex: 1;
+  height: 4px;
+  margin-top: 20px;
+  background-color: var(--gris-etape);
+}
+
+.EtapeLigneActive {
+  background-color: var(--vert-actif);
+}
+
+/* Téléphone : libellés plus petits */
+@media (max-width: 576px) {
+  .Etapes {
+    padding-bottom: 60px;
+  }
+
+  .EtapeLibelle {
+    width: 84px;
+    font-size: 11px;
+  }
+}

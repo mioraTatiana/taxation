@@ -1,0 +1,42 @@
+.CarteKpi {
+  flex: 1 1 200px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: var(--fond-ligne);
+  border-radius: 12px;
+}
+
+.CarteKpiIcone {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: var(--bleu);
+  color: #ffffff;
+}
+
+.CarteKpiTexte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.CarteKpiTitre {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.CarteKpiValeur {
+  font-size: 20px;
+  color: #111827;
+}
+
+.CarteKpiNote {
+  font-size: 12px;
+  color: #6b7280;
+}

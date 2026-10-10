@@ -11,6 +11,11 @@ import Clients from "./Page composants/Taxateur/Clients/Clients";
 import Marchandise from "./Page composants/Taxateur/Marchandise/Marchandise";
 import TypeMarchandise from "./Page composants/Taxateur/TypeMarchandise/TypeMarchandise";
 import Tarif from "./Page composants/Taxateur/Tarif/Tarif";
+import NouvelleFacture from "./Page composants/Taxateur/Nouvelle Facture/NouvelleFacture";
+import Facture from "./Page composants/Taxateur/Facture/Facture";
+import Recette from "./Page composants/Pages communs/Recette/Recette";
+import TableauDeBord from "./Page composants/Pages communs/TableauDeBord/TableauDeBord";
+import Statistique from "./Page composants/Pages communs/Statistique/Statistique";
 import PageVide from "./PageVide";
 
 // ===== POUR VISUALISER LES PAGES (à supprimer quand le login est prêt) =====
@@ -39,18 +44,18 @@ function App() {
           <Route path="/admin/type-train" element={<TypesTrain />} />
 
           {/* ----- Taxateur ----- */}
-          <Route path="/taxateur/nouvelle-facture" element={<PageVide titre="Nouvelle facture" />} />
-          <Route path="/taxateur/facture" element={<PageVide titre="Facture" />} />
-          <Route path="/taxateur/statistique" element={<PageVide titre="Statistique" />} />
+          <Route path="/taxateur/nouvelle-facture" element={<NouvelleFacture />} />
+          <Route path="/taxateur/facture" element={<Facture />} />
+          <Route path="/taxateur/statistique" element={<Statistique />} />
           <Route path="/taxateur/client" element={<Clients />} />
           <Route path="/taxateur/marchandise" element={<Marchandise />} />
           <Route path="/taxateur/type-marchandise" element={<TypeMarchandise />} />
           <Route path="/taxateur/tarif" element={<Tarif />} />
 
           {/* ----- Directeur et chef de division ----- */}
-          <Route path="/direction/recette" element={<PageVide titre="Recette" />} />
-          <Route path="/direction/statistique" element={<PageVide titre="Statistique" />} />
-          <Route path="/direction/tableau-de-bord" element={<PageVide titre="Tableau de bord" />} />
+          <Route path="/direction/recette" element={<Recette />} />
+          <Route path="/direction/statistique" element={<Statistique />} />
+          <Route path="/direction/tableau-de-bord" element={<TableauDeBord/>} />
 
           {/* Toute autre adresse (dont "/") : le Layout redirige vers le 1er menu du rôle */}
           <Route path="*" element={<PageVide titre="Page introuvable" />} />

@@ -1,0 +1,60 @@
+.CarteFacture {
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  background-color: var(--fond-ligne);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  color: #1f2937;
+  break-inside: avoid; /* une facture n'est pas coupée entre deux pages */
+}
+
+.CarteFactureEntete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 24px;
+  margin-bottom: 10px;
+}
+
+.CarteFactureEntete p,
+.CarteFactureBas p {
+  margin: 0 0 2px;
+}
+
+.CarteFactureDefilement {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.CarteFactureTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.CarteFactureTable th,
+.CarteFactureTable td {
+  padding: 3px 8px;
+  text-align: center;
+}
+
+.CarteFactureTable th {
+  font-weight: 700;
+  border-bottom: 1px solid #cfd8e3;
+}
+
+.CarteFactureBas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.CarteFactureBas p {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}

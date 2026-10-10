@@ -1,0 +1,35 @@
+.ProgressionFond {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1100;
+  display: flex;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.ProgressionBoite {
+  width: 100%;
+  max-width: 380px;
+  margin: auto;
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ProgressionTitre {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--bleu-titre);
+}
+
+.ProgressionMessage {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #374151;
+}

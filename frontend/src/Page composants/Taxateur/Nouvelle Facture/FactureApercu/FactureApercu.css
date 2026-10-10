@@ -1,0 +1,165 @@
+.FactureApercu {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  color: #1f2937;
+}
+
+.FactureEntete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+
+.FactureLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--bleu-titre);
+}
+
+.FactureLogo img {
+  height: 44px;
+}
+
+.FactureInfos {
+  flex: 1 1 160px;
+}
+
+.FactureInfos p {
+  margin: 0 0 2px;
+}
+
+.FactureTableauDefilement {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.FactureTableau {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.FactureTableau th,
+.FactureTableau td {
+  padding: 4px 6px;
+  text-align: center;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.FactureTableau th {
+  font-weight: 700;
+}
+
+.FactureVide {
+  color: #6b7280;
+}
+
+.FactureLigneWagon td {
+  font-weight: 700;
+}
+
+.FactureLigneActions {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.FactureBtnModifier,
+.FactureBtnSupprimer {
+  padding: 2px 8px;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.FactureBtnModifier {
+  background-color: var(--vert);
+}
+
+.FactureBtnSupprimer {
+  background-color: var(--rouge);
+}
+
+.FactureBas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.FactureResume p,
+.FactureTotaux p {
+  margin: 0 0 2px;
+}
+
+.FactureTotaux p {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.FactureArrete {
+  margin: 12px 0 0;
+  font-size: 11px;
+}
+
+.FactureBtnAction {
+  display: block;
+  width: 70%;
+  margin: 14px auto 0;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--rouge);
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.FactureBtnAction:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== Impression : seule la facture est imprimée ===== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .FactureImpression,
+  .FactureImpression * {
+    visibility: visible;
+  }
+
+  .FactureImpression {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .NePasImprimer {
+    display: none !important;
+  }
+
+  .Layout,
+  .LayoutBody,
+  .LayoutContenu,
+  .LayoutCarte {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}

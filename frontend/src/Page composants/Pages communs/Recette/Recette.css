@@ -1,0 +1,75 @@
+.RecetteMessage {
+  margin-top: 20px;
+  color: #6b7280;
+}
+
+.RecetteEnteteColonnes,
+.RecetteLigne {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.RecetteEnteteColonnes {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.RecetteColLibelle {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.RecetteColValeur {
+  flex: 0 0 140px;
+  text-align: right;
+}
+
+.RecetteMois {
+  margin-top: 16px;
+}
+
+.RecetteLigneMois {
+  padding: 8px 0;
+  border-bottom: 2px solid var(--bleu);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--bleu-titre);
+}
+
+.RecetteJour {
+  padding: 6px 0 6px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.RecetteLigneJour {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.RecetteLigneZone {
+  padding-left: 24px;
+  font-size: 14px;
+  color: #374151;
+}
+
+@media (max-width: 576px) {
+  .RecetteColValeur {
+    flex-basis: 96px;
+    font-size: 12px;
+  }
+
+  .RecetteLigneMois {
+    font-size: 16px;
+  }
+
+  .RecetteJour {
+    padding-left: 8px;
+  }
+
+  .RecetteLigneZone {
+    padding-left: 12px;
+  }
+}
