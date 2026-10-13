@@ -1,5 +1,5 @@
 const express = require("express");
-const pool = require("../db");
+const pool = require("../Bd/db");
 const tableaudebord = express.Router();
 
 // Dates facultatives : /tableaudebord/parzone?debut=2026-02-01&fin=2026-02-28

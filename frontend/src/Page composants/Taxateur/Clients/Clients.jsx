@@ -8,7 +8,7 @@ import Popup from "../../../Simple composants/Popup/Popup";
 import BouttonNouveau from "../../../Simple composants/BouttonNouveau/BouttonNouveau";
 import { idSuivant } from "../../../Simple composants/Outils/outils";
 import CustomInput from "../../../Simple composants/Input/Input";
-import { bleu,vert, rouge } from "../../../Simple composants/Couleurs/couleur";
+import { bleu, vert, rouge } from "../../../Simple composants/Couleurs/couleur";
 
 const URL_CLIENTS = "/api/clients"; // TODO : votre URL d'API
 const UTILISER_DONNEES_TEST = true; // mettre false quand l'API est prête
@@ -34,9 +34,14 @@ const FORMULAIRE_VIDE = {
 const SCHEMA = z.object({
   nomclient: z.string().trim().min(2, "Saisissez le nom du client").max(100, "Nom : 100 caractères maximum"),
   sigle: z.string().trim().max(10, "Sigle : 10 caractères maximum"),
-  cin: z.string().trim().max(12, "CIN : 12 caractères maximum"),
-  telephone: z.string().trim().min(8, "Numéro de téléphone invalide").max(13, "Téléphone : 13 caractères maximum"),
-  adresse: z.string().trim().max(100, "Adresse : 100 caractères maximum"),
+cin: z.string()
+  .max(12, "CIN : 12 chiffres maximum")
+  .regex(/^\d*$/, "Le CIN doit contenir uniquement des chiffres"),
+
+telephone: z.string()
+  .min(10, "Numéro de téléphone incomplet")
+  .max(13, "Téléphone : 13 caractères maximum")
+  .regex(/^(?:\+261\d{9}|0\d{9})$/, "Format de téléphone invalide"),  adresse: z.string().trim().max(100, "Adresse : 100 caractères maximum"),
   email: z.string().trim().email("Adresse email invalide").max(50, "Email : 50 caractères maximum").or(z.literal("")),
 });
 
@@ -44,8 +49,16 @@ const COLONNES = [
   { titre: "ID", cle: "idclient" },
   { titre: "Nom", cle: "nomclient" },
   { titre: "Sigle", cle: "sigle" },
-  { titre: "CIN", cle: "cin" },
-  { titre: "Téléphone", cle: "telephone" },
+  {
+    titre: "CIN",
+    cle: "cin",
+    formater: (client) => formaterCIN(client.cin),
+  },
+  {
+    titre: "Téléphone",
+    cle: "telephone",
+    formater: (client) => formaterTelephone(client.telephone),
+  },
   { titre: "Adresse", cle: "adresse" },
   { titre: "Email", cle: "email" },
 ];
@@ -102,8 +115,54 @@ function Clients() {
     setSelection(null);
   }
 
+  // Formater le CIN : 201021021035 -> 201 021 021 035
+  function formaterCIN(cin) {
+    const chiffres = (cin || "").replace(/\D/g, "");
+    return chiffres.replace(/(\d{3})(?=\d)/g, "$1 ").trim();
+  }
+
+  // Formater le téléphone malgache : +261346331923 -> +261 34 63 319 23
+  function formaterTelephone(telephone) {
+    const chiffres = (telephone || "").replace(/\D/g, "");
+
+    // Format international malgache commençant par 261
+    if (chiffres.startsWith("261")) {
+      const numero = chiffres.slice(3);
+
+      return numero.length > 0
+        ? `+261 ${numero.slice(0, 2)}${numero.length > 2 ? " " + numero.slice(2, 4) : ""}${numero.length > 4 ? " " + numero.slice(4, 7) : ""}${numero.length > 7 ? " " + numero.slice(7, 9) : ""}`.trim()
+        : "+261";
+    }
+
+    // Format local : 0341234567 -> 034 12 345 67
+    return chiffres.replace(/^(\d{3})(\d{2})(\d{3})(\d{2})$/, "$1 $2 $3 $4");
+  }
+
   function changerChamp(e) {
-    setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    let nouvelleValeur = value;
+
+    if (name === "cin") {
+      // Autoriser uniquement les chiffres et limiter à 12 chiffres
+      nouvelleValeur = value.replace(/\D/g, "").slice(0, 12);
+    }
+
+    if (name === "telephone") {
+      // Autoriser les chiffres et le signe + uniquement au début
+      const commenceParPlus = value.trimStart().startsWith("+");
+      const chiffres = value.replace(/\D/g, "").slice(0, 12);
+
+      nouvelleValeur = commenceParPlus ? `+${chiffres}` : chiffres;
+
+      // Limiter le nombre de caractères affichés
+      nouvelleValeur = nouvelleValeur.slice(0, 13);
+    }
+
+    setFormulaire((ancien) => ({
+      ...ancien,
+      [name]: nouvelleValeur,
+    }));
   }
 
   function boutonsDeLigne(client) {
@@ -180,9 +239,21 @@ function Clients() {
         >
           <CustomInput type="text" label="Nom du client" name="nomclient" value={formulaire.nomclient} onChange={changerChamp} />
           <CustomInput type="text" label="Sigle" name="sigle" value={formulaire.sigle} onChange={changerChamp} />
-          <CustomInput type="text" label="CIN" name="cin" value={formulaire.cin} onChange={changerChamp} />
-          <CustomInput type="tel" label="Téléphone" name="telephone" value={formulaire.telephone} onChange={changerChamp} />
-          <CustomInput type="text" label="Adresse" name="adresse" value={formulaire.adresse} onChange={changerChamp} />
+          <CustomInput
+            type="text"
+            label="CIN"
+            name="cin"
+            value={formaterCIN(formulaire.cin)}
+            onChange={changerChamp}
+          />
+
+          <CustomInput
+            type="tel"
+            label="Téléphone"
+            name="telephone"
+            value={formaterTelephone(formulaire.telephone)}
+            onChange={changerChamp}
+          />          <CustomInput type="text" label="Adresse" name="adresse" value={formulaire.adresse} onChange={changerChamp} />
           <CustomInput type="email" label="Email" name="email" value={formulaire.email} onChange={changerChamp} />
         </Popup>
       )}

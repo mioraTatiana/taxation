@@ -81,13 +81,14 @@ function FactureEmbarquement({ embarquement, destinations, zones, typesTrain, on
       <div className="FactureFormulaire">
         <div className="FactureColonne">
           <SelectInput
-            label="Destination *"
+            label="Destination "
             name="iddestination"
             options={optionsDestinations}
             value={embarquement.iddestination}
             onChange={(valeur) => onChange({ ...embarquement, iddestination: valeur })}
             placeholder="Sélectionner une destination"
             searchPlaceholder="Rechercher une destination..."
+            
           />
 
           <GroupeRadio

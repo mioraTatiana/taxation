@@ -1,70 +1,107 @@
+
 import React from "react";
 import "./FiltreDates.css";
 
-// Filtre "Date début / Date fin" avec les règles :
-//  - pas de date de fin sans date de début (le champ est désactivé)
-//  - choisir une date de début remplit la date de fin avec la même date
-//  - la date de fin ne peut pas être avant la date de début
-// Utilise les classes de votre Input.css (InputDiv, labelInput, inputCom)
-function FiltreDates({ debut, fin, onChange, afficherTitre = true, vertical = false }) {
+function FiltreDates({
+  debut,
+  fin,
+  onChange,
+  afficherTitre = true,
+}) {
+  // Modifier la date de début
   function changerDebut(e) {
-    const valeur = e.target.value;
+    const nouvelleDate = e.target.value;
 
-    if (valeur === "") {
-      onChange({ debut: "", fin: "" }); // sans début, pas de fin
+    if (nouvelleDate === "") {
+      onChange({ debut: "", fin: "" });
       return;
     }
-    // La fin devient égale au début (sauf si une fin valide existe déjà)
-    onChange({ debut: valeur, fin: fin === "" || fin < valeur ? valeur : fin });
+
+    // Conserver la date de fin seulement si elle est après
+    // ou égale à la nouvelle date de début.
+    onChange({
+      debut: nouvelleDate,
+      fin: fin !== "" && fin >= nouvelleDate ? fin : nouvelleDate,
+    });
   }
 
+  // Modifier la date de fin
   function changerFin(e) {
-    const valeur = e.target.value;
-    onChange({ debut, fin: valeur === "" || valeur < debut ? debut : valeur });
+    const nouvelleDate = e.target.value;
+
+    if (nouvelleDate === "") {
+      onChange({ debut, fin: debut });
+      return;
+    }
+
+    // La date de fin ne peut pas être antérieure au début.
+    onChange({
+      debut,
+      fin: nouvelleDate < debut ? debut : nouvelleDate,
+    });
   }
 
+  function formaterDate(date) {
+    if (!date) return "";
+
+    const [annee, mois, jour] = date.split("-");
+    return `${jour}-${mois}-${annee}`;
+  }
+
+  // Réinitialiser les dates
   function reinitialiser() {
     onChange({ debut: "", fin: "" });
   }
 
   return (
     <div className="FiltreDates">
-      {afficherTitre && <p className="FiltreDatesTitre">Filtre</p>}
+      {afficherTitre && (
+        <p className="FiltreDatesTitre">Filtrer par période</p>
+      )}
 
-      <div className={vertical ? "FiltreDatesChamps FiltreDatesVertical" : "FiltreDatesChamps"}>
-        <div className="InputDiv FiltreDatesChamp">
-          <label htmlFor="dateDebut" className="labelInput">
-            Date début
-          </label>
-          <input
-            id="dateDebut"
-            type="date"
-            className="inputCom"
-            value={debut}
-            onChange={changerDebut}
-          />
+      <div className="FiltreDatesCalendrier">
+        <div className="FiltreDatesCalendrierChamps">
+          <div>
+            <label htmlFor="dateDebut">Date de début</label>
+            <input
+              id="dateDebut"
+              type="date"
+              value={debut}
+              max={fin || undefined}
+              onChange={changerDebut}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="dateFin">Date de fin</label>
+            <input
+              id="dateFin"
+              type="date"
+              value={fin}
+              min={debut || undefined}
+              disabled={debut === ""}
+              onChange={changerFin}
+            />
+          </div>
         </div>
 
-        <div className="InputDiv FiltreDatesChamp">
-          <label htmlFor="dateFin" className="labelInput">
-            Date fin
-          </label>
-          <input
-            id="dateFin"
-            type="date"
-            className="inputCom"
-            value={fin}
-            min={debut}
-            disabled={debut === ""}
-            onChange={changerFin}
-          />
-        </div>
+        <div className="FiltreDatesActions">
+          <p className="FiltreDatesCalendrierInfo">
+            {debut === ""
+              ? "Choisissez une date de début pour commencer."
+              : `Période sélectionnée : du ${formaterDate(debut)} au ${formaterDate(fin || debut)}`}
+          </p>
 
-        {debut !== "" && (
-          <button type="button" className="FiltreDatesReinitialiser" onClick={reinitialiser}>
-            Réinitialiser
-          </button>
-        )}
+          {debut !== "" && (
+            <button
+              type="button"
+              className="FiltreDatesReinitialiser"
+              onClick={reinitialiser}
+            >
+              Réinitialiser
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

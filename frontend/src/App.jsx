@@ -31,7 +31,7 @@ if (MODE_TEST) {
     "utilisateur",
     JSON.stringify({
       nomutilisateur: "Miora Tatiana",
-      typeutilisateur: "directeur",
+      typeutilisateur: "taxateur",
       image: "",
     })
   );

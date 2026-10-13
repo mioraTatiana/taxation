@@ -22,16 +22,19 @@ statistique.get("/factures", (req, res) => {
            f.piquire, f.tva, f.montanthttotal, f.montantttc,
            c.nomclient, c.telephone, c.adresse,
            d.nomdestination, z.libellezone,
-           (SELECT tt.libelletrain
-              FROM public.detailfacture df
-              JOIN public.tarif t ON t.idtarif = df.idtarif
-              JOIN public.typetrain tt ON tt.idtypetrain = t.idtypetrain
-             WHERE df.idfacture = f.idfacture
-             LIMIT 1) AS wagon
+           w.libelletrain AS wagon, w.modefacturation AS wagoncomplet
     FROM public.facture f
     JOIN public.client c ON c.idclient = f.idclient
     JOIN public.destination d ON d.iddestination = f.iddestination
     JOIN public.zonedestination z ON z.idzone = d.idzone
+    -- Type de wagon d'une facture = celui du tarif de sa première ligne
+    LEFT JOIN LATERAL (
+           SELECT tt.libelletrain, tt.modefacturation
+             FROM public.detailfacture df
+             JOIN public.tarif t ON t.idtarif = df.idtarif
+             JOIN public.typetrain tt ON tt.idtypetrain = t.idtypetrain
+            WHERE df.idfacture = f.idfacture
+            LIMIT 1) w ON true
     WHERE ${FILTRE_DATES}
     ORDER BY f.datefacture DESC, f.idfacture DESC`;
 

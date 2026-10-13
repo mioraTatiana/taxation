@@ -9,7 +9,7 @@ import SelectInput from "../../../Simple composants/SelectInput/SelectInput";
 import CustomInput from "../../../Simple composants/Input/Input";
 import BouttonNouveau from "../../../Simple composants/BouttonNouveau/BouttonNouveau";
 import { trouverLibelle } from "../../../Simple composants/Outils/outils";
-import { bleu, rouge } from "../../../Simple composants/Couleurs/couleur";
+import { bleu, rouge, vert } from "../../../Simple composants/Couleurs/couleur";
 import { TYPES_TRAIN_TEST } from "../../../Simple composants/Outils/donneesTest";
 
 const URL_TRAINS = "/api/trains"; // TODO : votre URL d'API

@@ -1,23 +1,8 @@
 const express = require("express");
-const { Pool } = require("pg");
+const pool = require("../Bd/db");
 const client = express.Router();
 
-const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  password: "miorapost12",
-  database: "taxation",
-  port: 5432,
-});
 
-// Connexion à la base de données
-pool.connect((err, cnx, release) => {
-  if (err) {
-    return console.error("Erreur de connexion à la base de données", err.stack);
-  }
-  console.log("Connexion reussie à la base de donnée taxation - table client");
-  release();
-});
 
 // Ajouter dans la table client
 client.post("/ajouter", (req, res) => {

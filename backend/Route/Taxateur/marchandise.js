@@ -1,22 +1,8 @@
 const express = require("express");
-const { Pool } = require("pg");
+const pool = require("../Bd/db");
 const marchandise = express.Router();
 
-const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  password: "miorapost12",
-  database: "taxation",
-  port: 5432,
-});
 
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error("Erreur de connexion à la base de données", err.stack);
-  }
-  console.log("Connexion reussie à la base de donnée taxation - table marchandise");
-  release();
-});
 
 // Vérifie qu'une clé étrangère existe dans la table référencée
 const existe = async (table, colonne, valeur) => {

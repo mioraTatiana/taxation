@@ -130,9 +130,21 @@ function Destination() {
     setSelection(null);
   }
 
-  function changerChamp(e) {
-    setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
+ 
+function changerChamp(e) {
+  const { name, value } = e.target;
+
+  // Autoriser uniquement les chiffres pour le code gare
+  if (name === "codegare" && !/^\d*$/.test(value)) {
+    return;
   }
+
+  setFormulaire({
+    ...formulaire,
+    [name]: value,
+  });
+}
+
 
   function changerSelect(nom, valeur) {
     setFormulaire({ ...formulaire, [nom]: valeur });
