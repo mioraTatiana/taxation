@@ -101,20 +101,21 @@ function FactureClient({ client, clients, onChange, onSuivant }) {
       <div className="FactureFormulaire">
         <div className="FactureColonne">
           <ChampSuggestions
-            label="Téléphone *"
+            label="Téléphone "
             name="telephone"
             value={client.telephone}
             onChange={changerTelephone}
             suggestions={suggestions}
             onSelectionner={choisirClient}
             erreur={messageClientInconnu}
+            required="required"
           />
-          <CustomInput type="text" label="Nom *" name="nomclient" value={client.nomclient} onChange={changerChamp} readOnly={clientExistant} />
-          <CustomInput type="text" label="Sigle *" name="sigle" value={client.sigle} onChange={changerChamp} readOnly={clientExistant} />
+          <CustomInput type="text" label="Nom " name="nomclient" value={client.nomclient} onChange={changerChamp} readOnly={clientExistant} required="required" />
+          <CustomInput type="text" label="Sigle " name="sigle" value={client.sigle} onChange={changerChamp} readOnly={clientExistant} required="required"/>
         </div>
 
         <div className="FactureColonne">
-          <CustomInput type="text" label="Adresse *" name="adresse" value={client.adresse} onChange={changerChamp} readOnly={clientExistant} />
+          <CustomInput type="text" label="Adresse " name="adresse" value={client.adresse} onChange={changerChamp} readOnly={clientExistant} required="required"/>
           <CustomInput type="email" label="Email" name="email" value={client.email} onChange={changerChamp} readOnly={clientExistant} />
         </div>
       </div>

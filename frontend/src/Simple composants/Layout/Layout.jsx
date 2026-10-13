@@ -55,7 +55,7 @@ function Layout() {
       {/* ===== Div du menu ===== */}
       <div className={menuOuvert ? "LayoutMenu LayoutMenuOuvert" : "LayoutMenu"}>
         <div className="LayoutLogo">
-          <img src="/logo.png" alt="E-TaxeColis" />
+          <img src={logo} alt="E-TaxeColis" />
           <h2>E-TaxeColis</h2>
         </div>
  

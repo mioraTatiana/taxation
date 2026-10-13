@@ -3,16 +3,12 @@ import { X } from "lucide-react";
 import "./Facture.css";
 import FiltreDates from "../../../Simple composants/FiltreDates/FiltreDates";
 import TableDonnees from "../../../Simple composants/TableDonnees/TableDonnees";
-import ImpressionPortail from "../../../Simple composants/ImpressionPortail/ImpressionPortail";
-import { bleu } from "../../../Simple composants/Couleurs/couleur";
+import { bleu, rouge } from "../../../Simple composants/Couleurs/couleur";
 import FactureApercu from "./FactureApercu/FactureApercu";
 import { useFactures } from "../../../Simple composants/Outils/useFactures";
 import { formaterDate } from "../../../Simple composants/Outils/calculsStats";
 import { formaterMontant } from "../../../Simple composants/Outils/calculsFacture";
-
-function attendre(millisecondes) {
-  return new Promise((resolve) => setTimeout(resolve, millisecondes));
-}
+import { genererPdfFacture } from "./pdfFacture";
 
 // Colonnes de la table facture (clientNom et destinationNom = noms liés à idclient et iddestination)
 const COLONNES = [
@@ -29,7 +25,7 @@ const COLONNES = [
   { titre: "Total TTC", cle: "montantttc", afficher: (valeur) => `${formaterMontant(valeur)} Ar` },
 ];
 
-// Facture complète affichée dans la fenêtre et dans l'impression (lecture seule : pas de Modifier / Supprimer)
+// Facture complète affichée dans la fenêtre (lecture seule : pas de Modifier / Supprimer)
 function ApercuDeFacture({ facture, texteAction, onAction }) {
   return (
     <FactureApercu
@@ -56,23 +52,34 @@ function Facture() {
   const [periode, setPeriode] = useState({ debut: "", fin: "" });
   const { factures, chargement } = useFactures(periode);
   const [factureAffichee, setFactureAffichee] = useState(null);
-  const [enImpression, setEnImpression] = useState(false);
+  const [pdfEnCours, setPdfEnCours] = useState(false);
 
   // Les plus récentes d'abord
   const liste = [...factures].sort((a, b) =>
     a.datefacture === b.datefacture ? b.idfacture - a.idfacture : b.datefacture.localeCompare(a.datefacture)
   );
 
-  // Un seul bouton par ligne : Afficher
+  // Deux boutons par ligne : Afficher et Imprimer
   function boutonsDeLigne(facture) {
-    return [{ texte: "Afficher", couleur: bleu, onClick: () => setFactureAffichee(facture) }];
+    return [
+      { texte: "Afficher", couleur: bleu, onClick: () => setFactureAffichee(facture) },
+      { texte: "Imprimer", couleur: rouge, onClick: () => imprimer(facture) },
+    ];
   }
 
-  async function imprimer() {
-    setEnImpression(true);
-    await attendre(300);
-    window.print(); // dans la fenêtre d'impression : "Enregistrer au format PDF"
-    setEnImpression(false);
+  // Crée le PDF de la facture dans le front et le télécharge directement
+  // (sans passer par l'impression du navigateur)
+  async function imprimer(facture) {
+    if (pdfEnCours) return; // création déjà en cours
+    setPdfEnCours(true);
+    try {
+      await genererPdfFacture(facture, Fcelogo);
+      toast.success("PDF téléchargé");
+    } catch (erreur) {
+      console.error(erreur);
+      toast.error("Impossible de créer le PDF");
+    }
+    setPdfEnCours(false);
   }
 
   return (
@@ -103,17 +110,15 @@ function Facture() {
             >
               <X size={20} />
             </button>
-            <ApercuDeFacture facture={factureAffichee} texteAction="Imprimer" onAction={imprimer} />
+            <ApercuDeFacture
+              facture={factureAffichee}
+              texteAction="Imprimer"
+              onAction={() => imprimer(factureAffichee)}
+            />
           </div>
         </div>
       )}
 
-      {/* Copie imprimée de la facture (invisible à l'écran) */}
-      {enImpression && factureAffichee && (
-        <ImpressionPortail>
-          <ApercuDeFacture facture={factureAffichee} />
-        </ImpressionPortail>
-      )}
     </div>
   );
 }

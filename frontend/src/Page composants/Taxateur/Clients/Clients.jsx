@@ -63,6 +63,42 @@ const COLONNES = [
   { titre: "Email", cle: "email" },
 ];
 
+// CIN : 201321654789 -> 201 321 654 789
+function formaterCIN(cin) {
+  const chiffres = String(cin || "").replace(/\D/g, "");
+
+  return chiffres.replace(/(\d{3})(?=\d)/g, "$1 ");
+}
+
+// Téléphone : +261346331923 -> +261 34 63 319 23
+function formaterTelephone(telephone) {
+  const valeur = String(telephone || "");
+  const chiffres = valeur.replace(/\D/g, "");
+
+  if (chiffres.startsWith("261")) {
+    const numero = chiffres.slice(3);
+
+    if (!numero) return "+261";
+
+    return [
+      "+261",
+      numero.slice(0, 2),
+      numero.slice(2, 4),
+      numero.slice(4, 7),
+      numero.slice(7, 9),
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  // Format local : 0341234567 -> 034 12 345 67
+  if (/^0\d{9}$/.test(chiffres)) {
+    return chiffres.replace(/^(\d{3})(\d{2})(\d{3})(\d{2})$/, "$1 $2 $3 $4");
+  }
+
+  return chiffres;
+}
+
 function Clients() {
   const [clients, setClients] = useState([]);
   const [mode, setMode] = useState(null); // "ajouter", "modifier", "supprimer"
@@ -120,6 +156,8 @@ function Clients() {
     const chiffres = (cin || "").replace(/\D/g, "");
     return chiffres.replace(/(\d{3})(?=\d)/g, "$1 ").trim();
   }
+
+  
 
   // Formater le téléphone malgache : +261346331923 -> +261 34 63 319 23
   function formaterTelephone(telephone) {

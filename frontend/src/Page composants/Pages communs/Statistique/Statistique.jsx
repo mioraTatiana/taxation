@@ -4,30 +4,18 @@ import "./Statistique.css";
 import FiltreDates from "../../../Simple composants/FiltreDates/FiltreDates";
 import Popup from "../../../Simple composants/Popup/Popup";
 import SelectInput from "../../../Simple composants/SelectInput/SelectInput";
-import ImpressionPortail from "../../../Simple composants/ImpressionPortail/ImpressionPortail";
 import { rouge } from "../../../Simple composants/Couleurs/couleur";
 import Fcelogo from "../../../Image/logo.png";
 import CarteFacture from "./CarteFacture/CarteFacture";
 import { useFactures } from "../../../Simple composants/Outils/useFactures";
 import { grouperParDate, filtrerParDates, formaterDate, recetteDe } from "../../../Simple composants/Outils/calculsStats";
-import { formaterMontant } from "../../../Simple composants/Outils/calculsFacture";
+import { genererPdfStatistique } from "./pdfStatistique";
 
-// Valeurs du select "Destiné" (maquette de la fenêtre d'impression)
 const DESTINATAIRES = [
   { value: "Directeur", label: "Directeur" },
   { value: "Porter", label: "Porter" },
   { value: "Chef de division", label: "Chef de division" },
 ];
-
-function attendre(millisecondes) {
-  return new Promise((resolve) => setTimeout(resolve, millisecondes));
-}
-
-function texteDePeriode(debut, fin) {
-  if (!debut) return "Toutes les dates";
-  if (debut === fin) return `Le ${formaterDate(debut)}`;
-  return `Du ${formaterDate(debut)} au ${formaterDate(fin)}`;
-}
 
 // Liste "en boucle" : une date, puis les factures de cette date
 function GroupesFactures({ groupes }) {
@@ -49,10 +37,10 @@ function Statistique() {
   const [periode, setPeriode] = useState({ debut: "", fin: "" });
   const { toutes, factures, chargement } = useFactures(periode);
 
-  // Fenêtre d'impression
+  // Fenêtre "Imprimer des statistiques"
   const [popupOuvert, setPopupOuvert] = useState(false);
   const [impression, setImpression] = useState({ destinataire: "", debut: "", fin: "" });
-  const [aImprimer, setAImprimer] = useState(null); // { factures, destinataire, debut, fin }
+  const [pdfEnCours, setPdfEnCours] = useState(false);
 
   const groupes = grouperParDate(factures);
 
@@ -62,7 +50,10 @@ function Statistique() {
     setPopupOuvert(true);
   }
 
+  // Crée le PDF dans le front et le télécharge (sans passer par l'impression du navigateur)
   async function lancerImpression() {
+    if (pdfEnCours) return;
+
     if (!impression.destinataire) {
       toast.error("Choisissez le destinataire");
       return;
@@ -73,11 +64,24 @@ function Statistique() {
       return;
     }
 
-    setPopupOuvert(false);
-    setAImprimer({ ...impression, factures: selection });
-    await attendre(300); // laisse l'écran préparer le contenu à imprimer
-    window.print(); // dans la fenêtre d'impression : "Enregistrer au format PDF"
-    setAImprimer(null);
+    setPdfEnCours(true);
+    try {
+      await genererPdfStatistique(
+        {
+          factures: selection,
+          destinataire: impression.destinataire,
+          debut: impression.debut,
+          fin: impression.fin,
+        },
+        Fcelogo
+      );
+      setPopupOuvert(false);
+      toast.success("PDF téléchargé");
+    } catch (erreur) {
+      console.error(erreur);
+      toast.error("Impossible de créer le PDF");
+    }
+    setPdfEnCours(false);
   }
 
   return (
@@ -107,7 +111,7 @@ function Statistique() {
       {popupOuvert && (
         <Popup
           titre="Imprimer des statistiques"
-          texteConfirmer="Imprimer"
+          texteConfirmer={pdfEnCours ? "Création du PDF..." : "Imprimer"}
           couleur={rouge}
           onConfirmer={lancerImpression}
           onFermer={() => setPopupOuvert(false)}
@@ -129,30 +133,6 @@ function Statistique() {
             vertical
           />
         </Popup>
-      )}
-
-      {/* Contenu imprimé : invisible à l'écran, seul visible à l'impression */}
-      {aImprimer && (
-        <ImpressionPortail>
-          <div className="StatistiqueImpression">
-            <div className="StatistiqueImpressionEntete">
-              <img src={Fcelogo} alt="FCE" />
-              <div>
-                <h2>Statistiques des factures</h2>
-                <p>Destiné à : <strong>{aImprimer.destinataire}</strong></p>
-                <p>Période : {texteDePeriode(aImprimer.debut, aImprimer.fin)}</p>
-                <p>Édité le {new Date().toLocaleDateString("fr-FR")}</p>
-              </div>
-            </div>
-
-            <GroupesFactures groupes={grouperParDate(aImprimer.factures)} />
-
-            <p className="StatistiqueImpressionTotal">
-              {aImprimer.factures.length} facture(s) – Total TTC :{" "}
-              {formaterMontant(aImprimer.factures.reduce((total, f) => total + recetteDe(f), 0))} Ar
-            </p>
-          </div>
-        </ImpressionPortail>
       )}
     </div>
   );

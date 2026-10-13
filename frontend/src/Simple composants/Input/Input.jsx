@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './Input.css';
 
@@ -8,14 +9,15 @@ const CustomInput = ({
   onChange,
   name,
   placeholder,
-  readOnly
+  readOnly,
+  erreur,
+  required = false
 }) => {
-
   return (
     <div className="InputDiv">
-
       <label htmlFor={name} className="labelInput">
         {label}
+        {required && <span className="asterisqueRouge"> *</span>}
       </label>
 
       <input
@@ -27,8 +29,10 @@ const CustomInput = ({
         placeholder={placeholder}
         className="inputCom"
         readOnly={readOnly}
+        required={required}
       />
 
+      {erreur && <p className="champSuggestionsErreur">{erreur}</p>}
     </div>
   );
 };

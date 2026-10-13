@@ -15,6 +15,7 @@ function ChampSuggestions({
   onSelectionner,
   erreur,
   placeholder,
+  required
 }) {
   const [ouvert, setOuvert] = useState(false);
 
@@ -32,6 +33,7 @@ function ChampSuggestions({
     <div className="InputDiv ChampSuggestions">
       <label htmlFor={name} className="labelInput">
         {label}
+        {required && <span className="asterisqueRouge"> *</span>}
       </label>
 
       <input
@@ -45,6 +47,7 @@ function ChampSuggestions({
         onChange={saisir}
         onFocus={() => setOuvert(true)}
         onBlur={() => setOuvert(false)}
+        required={required}
       />
 
       {ouvert && suggestions.length > 0 && (

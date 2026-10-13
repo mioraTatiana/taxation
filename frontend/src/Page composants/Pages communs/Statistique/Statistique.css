@@ -39,43 +39,6 @@
   color: var(--bleu-titre);
 }
 
-/* ----- Contenu imprimé ----- */
-.StatistiqueImpression {
-  padding: 16px;
-  font-family: Arial, sans-serif;
-}
-
-.StatistiqueImpressionEntete {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #000000;
-}
-
-.StatistiqueImpressionEntete img {
-  height: 64px;
-}
-
-.StatistiqueImpressionEntete h2 {
-  margin: 0 0 4px;
-  font-size: 20px;
-  color: #000000;
-}
-
-.StatistiqueImpressionEntete p {
-  margin: 0;
-  font-size: 13px;
-}
-
-.StatistiqueImpressionTotal {
-  margin-top: 12px;
-  text-align: right;
-  font-size: 15px;
-  font-weight: 700;
-}
-
 @media (max-width: 576px) {
   .StatistiqueImprimer {
     width: 100%;
