@@ -17,13 +17,13 @@ export const TYPES_TRAIN_TEST = [
 ];
 
 export const TYPES_MARCHANDISE_TEST = [
-  { idtypemarchandise: "TP01", libelletype: "Produits frais", soumistva: false },
+  { idtypemarchandise: "TP01", libelletype: "Produits frais", soumistva: true },
   { idtypemarchandise: "TP02", libelletype: "Matériaux", soumistva: true },
   { idtypemarchandise: "TP03", libelletype: "Divers", soumistva: true },
-  { idtypemarchandise: "TP04", libelletype: "Carburant", soumistva: false },
-  { idtypemarchandise: "TP05", libelletype: "PPN", soumistva: false },
-  { idtypemarchandise: "TP06", libelletype: "Transport funéraire", soumistva: false },
+  { idtypemarchandise: "TP04", libelletype: "Carburant sans TVA", soumistva: false },
+  { idtypemarchandise: "TP05", libelletype: "PPN", soumistva: true },
 ];
+// Règle : soumistva = false uniquement pour "Carburant sans TVA" (c'est lui qui donne TVA = 0)
 
 export const MARCHANDISES_TEST = [
   { idmarchandise: 1, designation: "Sac de riz", poidscolis: 50, idtypemarchandise: "TP05" },
@@ -35,8 +35,6 @@ export const MARCHANDISES_TEST = [
   { idmarchandise: 7, designation: "Tôle", poidscolis: 30, idtypemarchandise: "TP02" },
   { idmarchandise: 8, designation: "Caisse de bananes", poidscolis: 15, idtypemarchandise: "TP01" },
   { idmarchandise: 9, designation: "Colis divers", poidscolis: 10, idtypemarchandise: "TP03" },
-  { idmarchandise: 10, designation: "Cercueil", poidscolis: 80, idtypemarchandise: "TP06" },
-  { idmarchandise: 11, designation: "Urne funéraire", poidscolis: 5, idtypemarchandise: "TP06" },
 ];
 
 export const CLIENTS_TEST = [
@@ -79,11 +77,13 @@ function construireFactures() {
     const destination = DESTINATIONS_TEST[i % 3];
     const client = CLIENTS_TEST[(i + 1) % 3];
     const train = i % 7 === 6 ? TYPES_TRAIN_TEST[2] : i % 5 === 4 ? TYPES_TRAIN_TEST[1] : TYPES_TRAIN_TEST[0];
-    const avecTva = i % 4 === 0;
+    const wagonComplet = train.modefacturation;
+    const avecTva = wagonComplet ? true : i % 4 === 0;
 
+    // Wagon complet : Divers et PPN seulement. Express : types avec ou sans TVA.
     const candidats = MARCHANDISES_TEST.filter((m) => {
       const type = TYPES_MARCHANDISE_TEST.find((t) => t.idtypemarchandise === m.idtypemarchandise);
-      return type.libelletype !== "Transport funéraire" && type.soumistva === avecTva;
+      return wagonComplet ? ["Divers", "PPN"].includes(type.libelletype) : type.soumistva === avecTva;
     });
 
     const details = [];

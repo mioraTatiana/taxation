@@ -13,7 +13,7 @@ import { genererPdfStatistique } from "./pdfStatistique";
 
 const DESTINATAIRES = [
   { value: "Directeur", label: "Directeur" },
-  { value: "Porter", label: "Porter" },
+  { value: "Porteur", label: "Porteur" },
   { value: "Chef de division", label: "Chef de division" },
 ];
 

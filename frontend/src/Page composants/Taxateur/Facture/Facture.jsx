@@ -9,6 +9,9 @@ import { useFactures } from "../../../Simple composants/Outils/useFactures";
 import { formaterDate } from "../../../Simple composants/Outils/calculsStats";
 import { formaterMontant } from "../../../Simple composants/Outils/calculsFacture";
 import { genererPdfFacture } from "./pdfFacture";
+import toast from "react-hot-toast";
+import Fcelogo from "../../../Image/logo.png";
+
 
 // Colonnes de la table facture (clientNom et destinationNom = noms liés à idclient et iddestination)
 const COLONNES = [

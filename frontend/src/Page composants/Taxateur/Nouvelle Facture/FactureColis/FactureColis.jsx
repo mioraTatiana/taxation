@@ -11,9 +11,15 @@ import BarreProgression from "../../../../Simple composants/BarreProgression/Bar
 import EnteteSection from "../../../../Simple composants/EnteteSection/EnteteSection";
 import { bleu, rouge } from "../../../../Simple composants/Couleurs/couleur";
 import FactureApercu from "../FactureApercu/FactureApercu";
-import { trouverTarif, formaterMontant, LIBELLE_TYPE_FUNERAIRE } from "../calculsFacture";
+import {
+  trouverTarif,
+  formaterMontant,
+  LIBELLE_TYPE_FUNERAIRE,
+  MAX_LIGNES,
+  typeAutoriseEnWagonComplet,
+} from "../calculsFacture";
 
-const FORMULAIRE_VIDE = { idmarchandise: "", nombrecolis: "", poidsreel: "", nomdefunt: "" };
+const FORMULAIRE_VIDE = { idmarchandise: "", nombrecolis: "" };
 
 const SCHEMA = z.object({
   idmarchandise: z.string().min(1, "Choisissez une désignation"),
@@ -21,7 +27,7 @@ const SCHEMA = z.object({
     .number()
     .int("Le nombre de colis doit être un nombre entier")
     .positive("Le nombre de colis doit être supérieur à 0"),
-  poidsreel: z.number().positive("Le poids réel doit être supérieur à 0"),
+  poidsreel: z.number().positive("Le poids réel doit être supérieur à 0 : vérifiez le poids d’un colis de cette marchandise"),
 });
 
 function FactureColis({
@@ -47,15 +53,18 @@ function FactureColis({
   const [indexModif, setIndexModif] = useState(null); // ligne en cours de modification
   const [confirmation, setConfirmation] = useState(null); // { type: "supprimer", index } ou { type: "effacer" }
 
-  const funeraire = embarquement.transport === "funeraire";
   const avecTva = embarquement.tva === "avec";
   const wagonComplet = Boolean(typeTrain && typeTrain.modefacturation);
   const capacite = wagonComplet ? typeTrain.poidsfacturation : 0;
 
-  // ----- Ce que l'étape 2 autorise : transport funéraire, ou marchandise avec / sans TVA -----
+  // ----- Types de marchandise autorisés -----
+  //  Wagon complet : Divers et PPN
+  //  Express avec TVA : les types soumis à la TVA
+  //  Express sans TVA : "Carburant sans TVA" (le seul type non soumis à la TVA)
   const typesAutorises = typesMarchandise.filter((type) => {
-    if (funeraire) return type.libelletype === LIBELLE_TYPE_FUNERAIRE;
-    return type.libelletype !== LIBELLE_TYPE_FUNERAIRE && type.soumistva === avecTva;
+    if (type.libelletype === LIBELLE_TYPE_FUNERAIRE) return false;
+    if (wagonComplet) return typeAutoriseEnWagonComplet(type.libelletype);
+    return type.soumistva === avecTva;
   });
 
   const marchandisesAutorisees = marchandises.filter((m) =>
@@ -69,10 +78,9 @@ function FactureColis({
     : null;
 
   const nombrecolis = Number(formulaire.nombrecolis) || 0;
-  // Wagon complet : poids réel = nombre de colis x poids d'un colis. Express : saisi à la main.
-  const poidsreel = wagonComplet
-    ? nombrecolis * (marchandise ? marchandise.poidscolis : 0)
-    : Number(formulaire.poidsreel) || 0;
+  // Poids réel = nombre de colis x poids d'un colis (table marchandise)
+  const poidsreel = nombrecolis * (marchandise ? marchandise.poidscolis : 0);
+  // Express : poids facturé = poids réel. Wagon complet : poids du wagon (15 000 / 20 000 kg).
   const poidsfacture = wagonComplet ? capacite : poidsreel;
   const prix = tarif ? tarif.prixkg : 0;
   const montant = Math.round(poidsfacture * prix);
@@ -109,6 +117,11 @@ function FactureColis({
   }
 
   function ajouterOuModifier() {
+    if (indexModif === null && lignes.length >= MAX_LIGNES) {
+      toast.error(`Une facture contient ${MAX_LIGNES} colis au maximum (une seule page)`);
+      return;
+    }
+
     const resultat = SCHEMA.safeParse({
       idmarchandise: formulaire.idmarchandise,
       nombrecolis: formulaire.nombrecolis,
@@ -116,10 +129,6 @@ function FactureColis({
     });
     if (!resultat.success) {
       toast.error(resultat.error.issues[0].message);
-      return;
-    }
-    if (funeraire && formulaire.nomdefunt.trim() === "") {
-      toast.error("Saisissez le nom du défunt");
       return;
     }
     if (!tarif) {
@@ -144,7 +153,6 @@ function FactureColis({
       poidsfacture: poidsreel, // le poids du wagon complet est appliqué au niveau de la facture
       prixapplicable: prix,
       montantht: Math.round(poidsreel * prix),
-      nomdefunt: funeraire ? formulaire.nomdefunt.trim() : "",
     };
 
     if (indexModif !== null) {
@@ -163,8 +171,6 @@ function FactureColis({
     setFormulaire({
       idmarchandise: String(ligne.idmarchandise),
       nombrecolis: String(ligne.nombrecolis),
-      poidsreel: String(ligne.poidsreel),
-      nomdefunt: ligne.nomdefunt || "",
     });
     setIndexModif(index);
   }
@@ -185,7 +191,7 @@ function FactureColis({
       <div className="ColisEntete">
         <EnteteSection
           icone={Package}
-          titre={funeraire ? "Transport funéraire" : "Colis à expédier"}
+          titre="Colis à expédier"
           sousTitre="Insérer les informations sur le colis"
         />
 
@@ -202,6 +208,9 @@ function FactureColis({
               {lignes.length} marchandise{lignes.length > 1 ? "s" : ""}
             </strong>
           )}
+          <span className="ColisCompteurNote">
+            {lignes.length} / {MAX_LIGNES} colis maximum
+          </span>
         </div>
       </div>
 
@@ -218,25 +227,15 @@ function FactureColis({
             searchPlaceholder="Rechercher..."
           />
 
-          {funeraire ? (
-            <CustomInput
-              type="text"
-              label="Nom du défunt *"
-              name="nomdefunt"
-              value={formulaire.nomdefunt}
-              onChange={changerChamp}
-            />
-          ) : (
-            <SelectInput
-              label="Type de marchandise (automatique)"
-              name="idtypemarchandise"
-              options={optionsTypes}
-              value={marchandise ? marchandise.idtypemarchandise : ""}
-              onChange={() => {}}
-              placeholder="Automatique"
-              disabled
-            />
-          )}
+          <SelectInput
+            label="Type de marchandise (automatique)"
+            name="idtypemarchandise"
+            options={optionsTypes}
+            value={marchandise ? marchandise.idtypemarchandise : ""}
+            onChange={() => {}}
+            placeholder="Automatique"
+            disabled
+          />
 
           <CustomInput
             type="text"
@@ -253,29 +252,19 @@ function FactureColis({
 
           <CustomInput
             type="number"
-            label={funeraire ? "Nombre (cercueils, urnes) *" : "Nombre de colis *"}
+            label="Nombre de colis *"
             name="nombrecolis"
             value={formulaire.nombrecolis}
             onChange={changerChamp}
           />
 
-          {wagonComplet ? (
-            <CustomInput
-              type="text"
-              label="Poids réel (automatique)"
-              name="poidsreel"
-              value={poidsreel > 0 ? `${formaterMontant(poidsreel)} kg` : ""}
-              readOnly
-            />
-          ) : (
-            <CustomInput
-              type="number"
-              label="Poids réel (kg) *"
-              name="poidsreel"
-              value={formulaire.poidsreel}
-              onChange={changerChamp}
-            />
-          )}
+          <CustomInput
+            type="text"
+            label="Poids réel (= nombre de colis × poids d’un colis)"
+            name="poidsreel"
+            value={poidsreel > 0 ? `${formaterMontant(poidsreel)} kg` : ""}
+            readOnly
+          />
 
           <CustomInput
             type="text"

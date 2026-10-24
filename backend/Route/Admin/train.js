@@ -2,7 +2,7 @@ const express = require("express");
 const pool = require("../Bd/db");
 const train = express.Router();
 
-const pool = require("../db");
+
 
 // Vérifie qu'une clé étrangère existe dans la table référencée
 const existe = async (table, colonne, valeur) => {

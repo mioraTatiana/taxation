@@ -45,6 +45,19 @@ function FactureEmbarquement({ embarquement, destinations, zones, typesTrain, on
     label: type.libelletrain,
   }));
 
+  // Wagon complet : les types sont Divers et PPN, avec TVA (le choix Avec / Sans TVA ne concerne que l'Express)
+  const wagonChoisi = typesTrain.find((type) => type.idtypetrain === embarquement.idtypetrain);
+  const wagonComplet = Boolean(wagonChoisi && wagonChoisi.modefacturation);
+
+  function changerWagon(valeur) {
+    const type = typesTrain.find((t) => t.idtypetrain === valeur);
+    onChange({
+      ...embarquement,
+      idtypetrain: valeur,
+      tva: type && type.modefacturation ? "avec" : embarquement.tva,
+    });
+  }
+
   function changerTransport(valeur) {
     // Le transport funéraire n'est pas soumis à la TVA
     onChange({
@@ -81,14 +94,13 @@ function FactureEmbarquement({ embarquement, destinations, zones, typesTrain, on
       <div className="FactureFormulaire">
         <div className="FactureColonne">
           <SelectInput
-            label="Destination "
+            label="Destination *"
             name="iddestination"
             options={optionsDestinations}
             value={embarquement.iddestination}
             onChange={(valeur) => onChange({ ...embarquement, iddestination: valeur })}
             placeholder="Sélectionner une destination"
             searchPlaceholder="Rechercher une destination..."
-            
           />
 
           <GroupeRadio
@@ -107,11 +119,11 @@ function FactureEmbarquement({ embarquement, destinations, zones, typesTrain, on
             name="idtypetrain"
             options={optionsWagons}
             value={embarquement.idtypetrain}
-            onChange={(valeur) => onChange({ ...embarquement, idtypetrain: valeur })}
+            onChange={changerWagon}
             requis
           />
 
-          {embarquement.transport === "marchandise" && (
+          {embarquement.transport === "marchandise" && !wagonComplet && (
             <GroupeRadio
               label="Taxes à Valeurs Ajoutées"
               name="tva"

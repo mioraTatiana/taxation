@@ -5,6 +5,7 @@ import { formaterMontant } from "./calculsFacture";
 export const BLEU = [10, 108, 201]; // couleur des titres (même bleu que le site)
 export const GRIS_LIGNE = [238, 243, 248]; // gris bleuté des lignes de tableau
 
+export const STYLE_TEXTE = "bold";
 // jsPDF affiche mal l'espace fine des nombres en français (ex: 1 500 000) :
 // on la remplace par une espace normale.
 export function nombre(valeur) {

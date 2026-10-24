@@ -1,6 +1,10 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { grouperParDate, formaterDate, recetteDe } from "../../../Simple composants/Outils/calculsStats";
+import {
+  grouperParDate,
+  formaterDate,
+  recetteDe, poidsDe
+} from "../../../Simple composants/Outils/calculsStats";
 import {
   BLEU,
   nombre,
@@ -21,7 +25,12 @@ function texteDePeriode(debut, fin) {
 //  factures     : factures de la période, avec leurs lignes (facture.details)
 //  destinataire : "Directeur", "Porter" ou "Chef de division" (affiché en en-tête)
 //  debut / fin  : dates "AAAA-MM-JJ" de la période (facultatives)
-export async function genererPdfStatistique({ factures, destinataire, debut, fin }, urlLogo) {
+export async function genererPdfStatistique(
+  { factures, destinataire, debut, fin },
+  urlLogo,
+) {
+  const masquerMontants = destinataire === "Porteur";
+
   const logo = await chargerImage(urlLogo);
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const largeurPage = doc.internal.pageSize.getWidth();
@@ -40,7 +49,13 @@ export async function genererPdfStatistique({ factures, destinataire, debut, fin
   doc.setFontSize(10);
   ligneInfo(doc, "Destiné à :", destinataire, marge + 28, 27);
   ligneInfo(doc, "Période :", texteDePeriode(debut, fin), marge + 28, 32);
-  ligneInfo(doc, "Édité le :", new Date().toLocaleDateString("fr-FR"), marge + 28, 37);
+  ligneInfo(
+    doc,
+    "Édité le :",
+    new Date().toLocaleDateString("fr-FR"),
+    marge + 28,
+    37,
+  );
 
   let y = 48;
 
@@ -61,10 +76,36 @@ export async function genererPdfStatistique({ factures, destinataire, debut, fin
 
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(10);
-      ligneInfo(doc, "Zone :", `${facture.destinationNom} (${facture.zoneLibelle})`, marge, y);
+      ligneInfo(
+        doc,
+        "Zone :",
+        `${facture.destinationNom} (${facture.zoneLibelle})`,
+        marge,
+        y,
+      );
       ligneInfo(doc, "Client :", facture.clientNom, largeurPage / 2 + 5, y);
       ligneInfo(doc, "Numéro :", facture.numfacture, marge, y + 5);
       ligneInfo(doc, "Wagon :", facture.wagon, largeurPage / 2 + 5, y + 5);
+
+      // Porter : seulement la désignation, la quantité et le poids
+      const entetes = masquerMontants
+        ? ["Désignation", "Qt", "Poids (kg)"]
+        : ["Désignation", "Qt", "Poids (kg)", "Pu (Ar)", "Total (Ar)"];
+
+      const lignes = facture.details.map((ligne) => {
+        const debutLigne = [
+          ligne.designation,
+          ligne.nombrecolis,
+          nombre(ligne.poidsreel),
+        ];
+        return masquerMontants
+          ? debutLigne
+          : [
+              ...debutLigne,
+              nombre(ligne.prixapplicable),
+              nombre(ligne.montantht),
+            ];
+      });
 
       autoTable(doc, {
         startY: y + 8,
@@ -95,30 +136,44 @@ export async function genererPdfStatistique({ factures, destinataire, debut, fin
       doc.text(
         `Colis : ${nombre(facture.nombrecolistotal)}   Poids : ${nombre(facture.poidsreeltotal)} kg`,
         marge,
-        y
+        y,
       );
-      doc.setFont("helvetica", "bold");
-      doc.text(
-        `HT : ${nombre(facture.montanthttotal)}   TVA : ${nombre(facture.tva)}   Piquire : ${nombre(facture.piquire)}   TTC : ${nombre(facture.montantttc)} Ar`,
-        droite,
-        y + 5,
-        { align: "right" }
-      );
-      y += 14;
+      if (!masquerMontants) {
+        doc.text(
+          `HT : ${nombre(facture.montanthttotal)}   TVA : ${nombre(facture.tva)}   Piquire : ${nombre(facture.piquire)}   TTC : ${nombre(facture.montantttc)} Ar`,
+          droite,
+          y + 5,
+          { align: "right" },
+        );
+      }
+      y += masquerMontants ? 10 : 14;
     });
   });
 
   // ----- Total général -----
   y = verifierPage(doc, y, 14);
-  const totalGeneral = factures.reduce((total, facture) => total + recetteDe(facture), 0);
+  const totalGeneral = factures.reduce(
+    (total, facture) => total + recetteDe(facture),
+    0,
+  );
   doc.setDrawColor(0, 0, 0);
   doc.line(marge, y - 3, droite, y - 3);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0);
-  doc.text(`${factures.length} facture(s) - Total TTC : ${nombre(totalGeneral)} Ar`, droite, y + 3, {
-    align: "right",
-  });
+  doc.text(
+    `${factures.length} facture(s) - Total TTC : ${nombre(totalGeneral)} Ar`,
+    droite,
+    y + 3,
+    {
+      align: "right",
+    },
+  );
+
+  const resume = masquerMontants
+    ? `${factures.length} facture(s) - Poids total : ${nombre(factures.reduce((t, f) => t + poidsDe(f), 0))} kg`
+    : `${factures.length} facture(s) - Total TTC : ${nombre(factures.reduce((t, f) => t + recetteDe(f), 0))} Ar`;
+  doc.text(resume, droite, y + 3, { align: "right" });
 
   ajouterNumerosDePage(doc);
   doc.save(`statistiques-${new Date().toISOString().slice(0, 10)}.pdf`);

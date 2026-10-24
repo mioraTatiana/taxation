@@ -1,8 +1,30 @@
 // Toute la logique de calcul de la facture est ici : si une règle change, on ne modifie que ce fichier.
 
-export const TAUX_TVA = 0.2; // TODO : confirmer le taux de TVA
-export const PIQUIRE = 0; // TODO : règle de calcul de la "piquire" à préciser
-export const LIBELLE_TYPE_FUNERAIRE = "Transport funéraire"; // libellé du type dans la table typemarchandise
+export const TAUX_TVA = 0.2; // TVA = 20 % du montant HT
+export const PIQUIRE = 1000; // piquire : 1 000 Ar par facture
+export const MAX_LIGNES = 11; // une facture imprimée tient sur une page : 11 colis (lignes) au maximum
+
+// Transport funéraire : facturé comme un poids imposé de PPN en Express (pas de lignes de marchandises)
+export const TARIF_IMPOSE_FUNERAIRE = 7267; // poids imposé (kg)
+export const LIBELLE_TYPE_PPN = "PPN";
+export const LIBELLE_EXPRESS = "Express";
+export const LIBELLE_TYPE_FUNERAIRE = "Transport funéraire"; // ce type n'est jamais proposé dans les marchandises
+
+// Wagon complet : seuls ces types de marchandise sont autorisés
+export const TYPES_WAGON_COMPLET = ["Divers", "PPN"];
+
+function memeTexte(a, b) {
+  return String(a).trim().toLowerCase() === String(b).trim().toLowerCase();
+}
+
+export function typeAutoriseEnWagonComplet(libelleType) {
+  return TYPES_WAGON_COMPLET.some((libelle) => memeTexte(libelle, libelleType));
+}
+
+// Montant TTC arrondi à la centaine supérieure : 150 050 -> 150 100 ; 158 190 -> 158 200 ; 150 000 reste 150 000
+export function arrondirCentaine(montant) {
+  return Math.ceil(Math.round(montant) / 100) * 100;
+}
 
 export function formaterMontant(nombre) {
   return Number(nombre || 0).toLocaleString("fr-FR");
@@ -38,7 +60,9 @@ export function calculerTotaux(lignes, typeTrain, avecTva) {
     montanthttotal = poidsfacturetotal * prixMax;
   }
 
+  // TVA = 20 % du montant HT, sauf "Carburant sans TVA" (avecTva = false) : TVA = 0
   const tva = avecTva ? Math.round(montanthttotal * TAUX_TVA) : 0;
+  const piquire = lignes.length > 0 ? PIQUIRE : 0;
 
   return {
     nombrecolistotal: somme(lignes, "nombrecolis"),
@@ -46,9 +70,26 @@ export function calculerTotaux(lignes, typeTrain, avecTva) {
     poidsfacturetotal,
     montanthttotal,
     tva,
-    piquire: PIQUIRE,
-    montantttc: montanthttotal + tva + PIQUIRE,
+    piquire,
+    // montantttc = montantht + piquire + tva, arrondi à la centaine supérieure
+    montantttc: arrondirCentaine(montanthttotal + tva + piquire),
   };
+}
+
+// Le tarif du transport funéraire est celui du PPN en Express, pour la zone de la destination
+export function trouverTarifFuneraire(tarifs, typesMarchandise, typesTrain, idzone) {
+  const ppn = typesMarchandise.find((type) => memeTexte(type.libelletype, LIBELLE_TYPE_PPN));
+  const express = typesTrain.find((type) => memeTexte(type.libelletrain, LIBELLE_EXPRESS));
+  if (!ppn || !express) return null;
+  return trouverTarif(tarifs, idzone, ppn.idtypemarchandise, express.idtypetrain) || null;
+}
+
+// Transport funéraire : montantht = poids imposé (7267) x tarif ; montantttc = montantht + piquire (arrondi)
+export function calculerFuneraire(tarif) {
+  const prixkg = tarif ? tarif.prixkg : 0;
+  const montantht = TARIF_IMPOSE_FUNERAIRE * prixkg;
+  const piquire = tarif ? PIQUIRE : 0;
+  return { prixkg, montantht, piquire, montantttc: arrondirCentaine(montantht + piquire) };
 }
 
 // ---------- Montant en lettres (français) : 600 -> "six cents" ----------
