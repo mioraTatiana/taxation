@@ -1,0 +1,27 @@
+/* Deux colonnes qui passent l'une sous l'autre sur petit écran */
+.FactureFormulaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin-top: 20px;
+}
+
+.FactureColonne {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+/* Message + bouton "Nouveau client" quand le client n'est pas dans la base */
+.FactureClientInconnu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #dc3545;
+}
+
+.FactureClientInconnu .BouttonNouveauBarre {
+  margin-bottom: 0;
+}

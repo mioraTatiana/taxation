@@ -1,0 +1,20 @@
+.ImpressionPortail {
+  display: none;
+}
+
+@media print {
+  body > *:not(.ImpressionPortail) {
+    display: none !important;
+  }
+
+  .ImpressionPortail {
+    display: block;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .ImpressionPortail,
+  .ImpressionPortail * {
+    visibility: visible;
+  }
+}

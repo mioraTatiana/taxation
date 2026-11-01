@@ -1,0 +1,27 @@
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  color: var(--bleu-titre);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.menuItem:hover {
+  background-color: var(--fond-survol);
+  color: var(--bleu-titre);
+}
+
+.menuItemActif {
+  background-color: var(--fond-actif);
+  border-left: 4px solid var(--bleu);
+  font-weight: 600;
+}
+
+/* Tablette / téléphone : zones de clic plus grandes */
+@media (max-width: 992px) {
+  .menuItem {
+    padding: 14px 20px;
+  }
+}

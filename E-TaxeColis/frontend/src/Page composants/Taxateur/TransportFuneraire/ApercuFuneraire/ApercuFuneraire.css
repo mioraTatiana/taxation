@@ -1,0 +1,60 @@
+/* Facture funéraire affichée à l'écran (Nouvelle facture et page Transport funéraire) */
+.FuneraireCarte {
+  padding: 14px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  color: #1f2937;
+}
+
+.FuneraireCarte p {
+  margin: 0 0 4px;
+}
+
+.FuneraireCarteEntete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.FuneraireCarteEntete img {
+  height: 44px;
+}
+
+.FuneraireTotaux {
+  margin: 12px 0;
+  padding: 8px 10px;
+  background-color: var(--fond-ligne);
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+.FuneraireTotaux p {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.FuneraireArrete {
+  font-size: 11px;
+}
+
+.FuneraireBouton {
+  display: block;
+  width: 70%;
+  margin: 14px auto 0;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--rouge);
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.FuneraireBouton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
