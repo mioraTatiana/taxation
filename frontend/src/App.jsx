@@ -13,7 +13,9 @@ import Clients from "./Page composants/Taxateur/Clients/Clients";
 import Marchandise from "./Page composants/Taxateur/Marchandise/Marchandise";
 import TypeMarchandise from "./Page composants/Taxateur/TypeMarchandise/TypeMarchandise";
 import Tarif from "./Page composants/Taxateur/Tarif/Tarif";
-import NouvelleFacture from "./Page composants/Taxateur/Nouvelle Facture/NouvelleFacture";
+import Tariffuneraire from "./Page composants/Taxateur/Tariffuneraire/Tariffuneraire";
+import Transportfuneraire from "./Page composants/Taxateur/Transportfuneraire/Transportfuneraire";
+import NouvelleFacture from "./Page composants/Taxateur/Nouvelle Facture/Nouvellefacture";
 import Facture from "./Page composants/Taxateur/Facture/Facture";
 import Recette from "./Page composants/Pages communs/Recette/Recette";
 import TableauDeBord from "./Page composants/Pages communs/TableauDeBord/TableauDeBord";
@@ -50,10 +52,6 @@ function App() {
         <Route element={<Layout />}>
           {/* ----- Admin ----- */}
           <Route path="/admin/utilisateur" element={<Utilisateurs />} />
-          <Route path="/admin/zone" element={<Zones />} />
-          <Route path="/admin/destination" element={<Destination />} />
-          <Route path="/admin/train" element={<Train />} />
-          <Route path="/admin/type-train" element={<TypesTrain />} />
 
           {/* ----- Taxateur ----- */}
           <Route path="/taxateur/nouvelle-facture" element={<NouvelleFacture />} />
@@ -62,12 +60,23 @@ function App() {
           <Route path="/taxateur/client" element={<Clients />} />
           <Route path="/taxateur/marchandise" element={<Marchandise />} />
           <Route path="/taxateur/type-marchandise" element={<TypeMarchandise />} />
+          <Route path="/taxateur/Tariffuneraire" element={<Tariffuneraire />} />
           <Route path="/taxateur/tarif" element={<Tarif />} />
+          <Route path="/taxateur/Transportfuneraire" element={< Transportfuneraire />} />
+          Transportfuneraire
 
           {/* ----- Directeur et chef de division ----- */}
           <Route path="/direction/recette" element={<Recette />} />
           <Route path="/direction/statistique" element={<Statistique />} />
           <Route path="/direction/tableau-de-bord" element={<TableauDeBord />} />
+
+
+          {/* ----- Propre chef de division ----- */}
+          <Route path="/direction/zone" element={<Zones />} />
+          <Route path="/direction/destination" element={<Destination />} />
+          <Route path="/direction/train" element={<Train />} />
+          <Route path="/direction/type-train" element={<TypesTrain />} />
+
 
           {/* Toute autre adresse (dont "/") : le Layout redirige vers le 1er menu du rôle,
               ou vers /authentification si personne n'est connecté */}

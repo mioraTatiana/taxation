@@ -19,26 +19,36 @@ import {
 
 const MENUS_ADMIN = [
   { texte: "Utilisateur", chemin: "/admin/utilisateur", icone: Users },
-  { texte: "Zone", chemin: "/admin/zone", icone: MapPin },
-  { texte: "Destination", chemin: "/admin/destination", icone: Signpost },
-  { texte: "Train", chemin: "/admin/train", icone: TrainFront },
-  { texte: "Type de train", chemin: "/admin/type-train", icone: Tags },
 ];
 
 const MENUS_TAXATEUR = [
   { texte: "Nouvelle facture", chemin: "/taxateur/nouvelle-facture", icone: FilePlus },
-  { texte: "Facture", chemin: "/taxateur/facture", icone: FileText },
+  { texte: "Facture marchandise", chemin: "/taxateur/facture", icone: FileText },
   { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
   { texte: "Client", chemin: "/taxateur/client", icone: Users },
   { texte: "Marchandise", chemin: "/taxateur/marchandise", icone: Package },
   { texte: "Type de marchandise", chemin: "/taxateur/type-marchandise", icone: Boxes },
-  { texte: "Tarif", chemin: "/taxateur/tarif", icone: CreditCard },
+  { texte: "Tarif de marchandise", chemin: "/taxateur/tarif", icone: CreditCard },
+  { texte: "Tarif funéraire", chemin: "/taxateur/tariffuneraire", icone: CreditCard },
+   { texte: "Transport funéraire", chemin: "/taxateur/transportfuneraire", icone: CreditCard },
+];
+
+const MENUS_CHEF = [
+  { texte: "Recette", chemin: "/direction/recette", icone: Wallet },
+  { texte: "Statistique", chemin: "/direction/statistique", icone: BarChart3 },
+  { texte: "Tableau de bord", chemin: "/direction/tableau-de-bord", icone: LayoutDashboard },
+  { texte: "Zone", chemin: "/direction/zone", icone: MapPin },
+  { texte: "Destination", chemin: "/direction/destination", icone: Signpost },
+  { texte: "Train", chemin: "/direction/train", icone: TrainFront },
+  { texte: "Type de train", chemin: "/direction/type-train", icone: Tags },
+
 ];
 
 const MENUS_DIRECTION = [
   { texte: "Recette", chemin: "/direction/recette", icone: Wallet },
   { texte: "Statistique", chemin: "/direction/statistique", icone: BarChart3 },
   { texte: "Tableau de bord", chemin: "/direction/tableau-de-bord", icone: LayoutDashboard },
+
 ];
 
 // La clé = valeur de "typeutilisateur" en base
@@ -46,7 +56,7 @@ export const MENUS = {
   admin: MENUS_ADMIN,
   taxateur: MENUS_TAXATEUR,
   directeur: MENUS_DIRECTION,
-  chef_division: MENUS_DIRECTION,
+  chef_division: MENUS_CHEF,
 };
 
 export const LIBELLES_ROLES = {
