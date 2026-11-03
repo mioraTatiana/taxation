@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { nombreEnLettres, lignesImprimees, complementMinimum } from "./calculsFacture";
 import { formaterDate } from "./calculsStats";
-import { BLEU, nombre, chargerImage, dessinerLogo, ligneInfo } from "./pdfOutils";
+import { BLEU,, nombre, chargerImage, dessinerLogo, ligneInfo } from "./pdfOutils";
 
 // PDF des factures, créés dans le front (sans l'impression du navigateur).
 //  enDouble = false : une facture sur une page A4 (page Facture, page Transport funéraire)

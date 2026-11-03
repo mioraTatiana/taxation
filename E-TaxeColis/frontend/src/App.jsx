@@ -38,10 +38,7 @@ function App() {
         <Route element={<Layout />}>
           {/* ----- Admin ----- */}
           <Route path="/admin/utilisateur" element={<Utilisateurs />} />
-          <Route path="/admin/zone" element={<Zones />} />
-          <Route path="/admin/destination" element={<Destination />} />
-          <Route path="/admin/wagon" element={<Wagon />} />
-          <Route path="/admin/type-wagon" element={<TypesWagon />} />
+      
 
           {/* ----- Taxateur ----- */}
           <Route path="/taxateur/nouvelle-facture" element={<NouvelleFacture />} />
@@ -53,6 +50,10 @@ function App() {
           <Route path="/taxateur/type-marchandise" element={<TypeMarchandise />} />
           <Route path="/taxateur/tarif" element={<Tarif />} />
           <Route path="/taxateur/tarif-funeraire" element={<TarifFuneraire />} />
+              <Route path="/taxateur/zone" element={<Zones />} />
+          <Route path="/taxateur/destination" element={<Destination />} />
+          <Route path="/taxateur/wagon" element={<Wagon />} />
+          <Route path="/taxateur/type-wagon" element={<TypesWagon />} />
 
           {/* ----- Directeur et chef de division ----- */}
           <Route path="/direction/recette" element={<Recette />} />

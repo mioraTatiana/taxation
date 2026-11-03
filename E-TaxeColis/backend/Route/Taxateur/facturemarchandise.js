@@ -130,13 +130,13 @@ facturemarchandise.post("/ajouter", async (req, res) => {
     return res.status(400).json({ message: "La facture doit contenir au moins une ligne" });
   }
 
-  // Une seule connexion pour toute la transaction
+                                                                                                                                                                                 // Une seule connexion pour toute la transaction
   const connexion = await pool.connect();
 
   try {
     await connexion.query("BEGIN");
 
-    // b) L'en-tête de la facture
+                                                                                                                                                                                 // b) L'en-tête de la facture
     const resultFacture = await connexion.query(
       `INSERT INTO public.facturemarchandise
          (datefacturemarchandise, nombrecolistotal, poidsreeltotal, poidsfacturetotal,
@@ -145,21 +145,12 @@ facturemarchandise.post("/ajouter", async (req, res) => {
        RETURNING idfacturemarchandise, numfacturemarchandise,
                  to_char(datefacturemarchandise, 'YYYY-MM-DD') AS datefacturemarchandise`,
       [
-        nombrecolistotal,
-        poidsreeltotal,
-        poidsfacturetotal,
-        piquiremarchandise,
-        tva,
-        montanthttotal,
-        montantttc,
-        idclient,
-        iddestination,
-        req.utilisateur.iduser, // le taxateur connecté (lu dans son jeton)
+        nombrecolistotal,poidsreeltotal,poidsfacturetotal,piquiremarchandise,tva,montanthttotal,montantttc,idclient,iddestination,req.utilisateur.iduser,                       // le taxateur connecté (lu dans son jeton)
       ]
     );
     const facture = resultFacture.rows[0];
 
-    // c) Les lignes, une par une, avec l'id de la facture
+                                                                                                                                                                                  // c) Les lignes, une par une, avec l'id de la facture
     const details = [];
     for (const ligne of lignes) {
       const resultLigne = await connexion.query(
@@ -169,21 +160,15 @@ facturemarchandise.post("/ajouter", async (req, res) => {
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
          RETURNING *`,
         [
-          ligne.nombrecolis,
-          ligne.poidsreel,
-          ligne.poidsfacture,
-          ligne.prixapplicable,
-          ligne.montantht,
-          ligne.idtarifmarchandise,
-          facture.idfacturemarchandise,
-          ligne.idmarchandise || null, // vide pour la ligne "wagon complet"
-          ligne.idwagon || null,
+          ligne.nombrecolis,ligne.poidsreel,ligne.poidsfacture,ligne.prixapplicable,ligne.montantht,ligne.idtarifmarchandise,facture.idfacturemarchandise,
+          ligne.idmarchandise || null, ligne.idwagon || null,                                                                                                                                           // vide pour la ligne "wagon complet"
+
         ]
       );
       details.push(resultLigne.rows[0]);
     }
 
-    // d) Tout s'est bien passé
+                                                                                                                                                                                 // d) Tout s'est bien passé
     await connexion.query("COMMIT");
     res.status(201).json({ ...facture, details });
   } catch (err) {

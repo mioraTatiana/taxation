@@ -21,22 +21,23 @@ import {
 
 const MENUS_ADMIN = [
   { texte: "Utilisateur", chemin: "/admin/utilisateur", icone: Users },
-  { texte: "Zone", chemin: "/admin/zone", icone: MapPin },
-  { texte: "Destination", chemin: "/admin/destination", icone: Signpost },
-  { texte: "Wagon", chemin: "/admin/wagon", icone: TrainFront },
-  { texte: "Type de wagon", chemin: "/admin/type-wagon", icone: Tags },
+
 ];
 
 const MENUS_TAXATEUR = [
   { texte: "Nouvelle facture", chemin: "/taxateur/nouvelle-facture", icone: FilePlus },
-  { texte: "Facture", chemin: "/taxateur/facture", icone: FileText },
+  { texte: "Facture marchandise", chemin: "/taxateur/facture", icone: FileText },
+ { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
   { texte: "Transport funéraire", chemin: "/taxateur/transport-funeraire", icone: Flower2 },
-  { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
   { texte: "Client", chemin: "/taxateur/client", icone: Users },
   { texte: "Marchandise", chemin: "/taxateur/marchandise", icone: Package },
   { texte: "Type de marchandise", chemin: "/taxateur/type-marchandise", icone: Boxes },
   { texte: "Tarif", chemin: "/taxateur/tarif", icone: CreditCard },
   { texte: "Tarif funéraire", chemin: "/taxateur/tarif-funeraire", icone: ReceiptText },
+    { texte: "Zone", chemin: "/taxateur/zone", icone: MapPin },
+  { texte: "Destination", chemin: "/taxateur/destination", icone: Signpost },
+  { texte: "Wagon", chemin: "/taxateur/wagon", icone: TrainFront },
+  { texte: "Type de wagon", chemin: "/taxateur/type-wagon", icone: Tags },
 ];
 
 const MENUS_DIRECTION = [

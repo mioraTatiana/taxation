@@ -13,8 +13,7 @@ const statistique = express.Router();
 // 1) Factures marchandise de la période, avec client, destination, zone, type de wagon
 //    et leurs lignes dans le champ "details"
 statistique.get("/marchandise", async (req, res) => {
-  const debut = req.query.debut || null;
-  const fin = req.query.fin || null;
+  const debut = req.query.debut || null; const fin = req.query.fin || null;
 
   try {
     const factures = await pool.query(
@@ -43,7 +42,7 @@ statistique.get("/marchandise", async (req, res) => {
       [debut, fin]
     );
 
-    // Les lignes de toutes ces factures, en une seule requête
+                                                                                                                                                                                  // Les lignes de toutes ces factures, en une seule requête
     const ids = factures.rows.map((f) => f.idfacturemarchandise);
     const lignes = await pool.query(
       `SELECT df.iddetailfacture, df.idfacturemarchandise, df.nombrecolis, df.poidsreel, df.poidsfacture,
@@ -60,13 +59,13 @@ statistique.get("/marchandise", async (req, res) => {
       [ids]
     );
 
-    // On range chaque ligne dans sa facture
+                                                                                                                                                                    // On range chaque ligne dans sa facture
     const resultat = factures.rows.map((facture) => ({
       ...facture,
       details: lignes.rows.filter((l) => l.idfacturemarchandise === facture.idfacturemarchandise),
     }));
 
-    // Une liste vide n'est pas une erreur : la page affiche "Aucune facture"
+                                                                                                                                                      // Une liste vide n'est pas une erreur : la page affiche "Aucune facture"
     res.json(resultat);
   } catch (err) {
     res.status(500).json({
@@ -104,8 +103,7 @@ statistique.get("/funeraire", (req, res) => {
   });
 });
 
-
-// 3) Totaux par transport : [{ transport, nombrefactures, recette, poids, colis }]
+                                                                                                                                                                        // 3) Totaux par transport : [{ transport, nombrefactures, recette, poids, colis }]
 statistique.get("/totaux", (req, res) => {
   const query = `
     SELECT f.transport,

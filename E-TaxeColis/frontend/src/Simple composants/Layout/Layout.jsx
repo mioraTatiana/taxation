@@ -62,9 +62,6 @@ function Layout() {
         </div>
  
         <div className="LayoutProfil">
-          <div className="LayoutAvatar LayoutAvatarVide">
-            <User size={20} />
-          </div>
           <p className="LayoutNom">{utilisateur.nomutilisateur}</p>
           <p className="LayoutRole">
             {libelleDuRole(utilisateur.typeutilisateur)}
