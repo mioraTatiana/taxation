@@ -28,6 +28,11 @@ export function enregistrerConnexion(utilisateur, token) {
   sessionStorage.setItem(CLE_TOKEN, token);
 }
 
+// Après "Mon profil" ou la page Statut : met à jour le nom / l'email affichés (le jeton ne change pas)
+export function mettreAJourUtilisateur(utilisateur) {
+  sessionStorage.setItem(CLE_UTILISATEUR, JSON.stringify(utilisateur));
+}
+
 export function deconnecter() {
   sessionStorage.removeItem(CLE_UTILISATEUR);
   sessionStorage.removeItem(CLE_TOKEN);

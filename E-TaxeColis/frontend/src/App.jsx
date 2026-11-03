@@ -5,10 +5,12 @@ import Layout from "./Simple composants/Layout/Layout";
 import Login from "./Page composants/Pages communs/Login/Login";
 import CreerCompte from "./Page composants/Pages communs/CreerCompte/Creercompte";
 import Utilisateurs from "./Page composants/Admin/Utilisateurs/Utilisateurs";
+import Statut from "./Page composants/Admin/Statut/Statut";
 import Zones from "./Page composants/Admin/Zones/Zones";
 import Destination from "./Page composants/Admin/Destination/Destination";
 import TypesWagon from "./Page composants/Admin/TypesWagon/TypesWagon";
 import Wagon from "./Page composants/Admin/Wagon/Wagon";
+import EnregistrementFacture from "./Page composants/Admin/EnregistrementFacture/EnregistrementFacture";
 import Clients from "./Page composants/Taxateur/Clients/Clients";
 import Marchandise from "./Page composants/Taxateur/Marchandise/Marchandise";
 import TypeMarchandise from "./Page composants/Taxateur/TypeMarchandise/TypeMarchandise";
@@ -38,7 +40,8 @@ function App() {
         <Route element={<Layout />}>
           {/* ----- Admin ----- */}
           <Route path="/admin/utilisateur" element={<Utilisateurs />} />
-      
+          <Route path="/admin/statut" element={<Statut />} />
+          <Route path="/admin/enregistrement-facture" element={<EnregistrementFacture />} />
 
           {/* ----- Taxateur ----- */}
           <Route path="/taxateur/nouvelle-facture" element={<NouvelleFacture />} />
@@ -50,10 +53,12 @@ function App() {
           <Route path="/taxateur/type-marchandise" element={<TypeMarchandise />} />
           <Route path="/taxateur/tarif" element={<Tarif />} />
           <Route path="/taxateur/tarif-funeraire" element={<TarifFuneraire />} />
-              <Route path="/taxateur/zone" element={<Zones />} />
-          <Route path="/taxateur/destination" element={<Destination />} />
-          <Route path="/taxateur/wagon" element={<Wagon />} />
-          <Route path="/taxateur/type-wagon" element={<TypesWagon />} />
+
+          {/* ----- Chef de division seulement ----- */}
+          <Route path="/chef-division/zone" element={<Zones />} />
+          <Route path="/chef-division/destination" element={<Destination />} />
+          <Route path="/chef-division/wagon" element={<Wagon />} />
+          <Route path="/chef-division/type-wagon" element={<TypesWagon />} />
 
           {/* ----- Directeur et chef de division ----- */}
           <Route path="/direction/recette" element={<Recette />} />

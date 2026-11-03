@@ -1,0 +1,66 @@
+.EnregistrementTitre {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.EnregistrementTableau {
+  margin-top: 20px;
+}
+
+/* Fenêtre qui liste les factures d'une personne */
+.EnregistrementFenetreFond {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.EnregistrementFenetre {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 16px 16px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 16px;
+}
+
+.EnregistrementFenetreTitre {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: var(--bleu-titre);
+}
+
+.EnregistrementFenetreSousTitre {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.EnregistrementFermer {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: flex;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: #374151;
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .EnregistrementTitre {
+    font-size: 18px;
+  }
+
+  .EnregistrementFenetre {
+    padding: 40px 8px 8px;
+  }
+}

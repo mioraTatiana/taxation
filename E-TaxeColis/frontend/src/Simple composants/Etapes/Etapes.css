@@ -35,7 +35,8 @@
   position: absolute;
   top: 52px;
   left: 50%;
-  width: 150px;
+  width: max-content; /* le libellé prend la largeur de son texte */
+  white-space: nowrap; /* toujours sur une seule ligne */
   transform: translateX(-50%);
   text-align: center;
   font-size: 14px;
@@ -63,8 +64,10 @@
     padding-bottom: 60px;
   }
 
+  /* Téléphone : pas assez de place, le libellé peut passer sur deux lignes */
   .EtapeLibelle {
     width: 84px;
+    white-space: normal;
     font-size: 11px;
   }
 }

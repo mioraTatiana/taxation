@@ -58,3 +58,29 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ===== Couleurs de la facture (mêmes que le PDF) ===== */
+.FuneraireCarte {
+  color: #212529;
+}
+
+.FuneraireCarteEntete strong {
+  color: var(--bleu-titre);
+}
+
+.FuneraireTotaux {
+  border-color: #d1d5db;
+  background-color: #f3f6fa;
+}
+
+.FuneraireTotaux p:last-child {
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--bleu-titre);
+  color: #ffffff;
+}
+
+.FuneraireArrete {
+  font-style: italic;
+}

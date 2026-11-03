@@ -5,6 +5,8 @@
 //   "Express"       : facture marchandise dont le wagon n'est pas complet
 //   "Wagon complet" : facture marchandise en série 100 / série 400
 //   "Funéraire"     : facture de la table facturefuneraire (poids et colis = 0)
+// La dernière colonne, iduser, est le taxateur qui a enregistré la facture
+// (utilisée par Route/Admin/enregistrement.js).
 //
 // On l'utilise comme une table : SELECT ... FROM (${TOUTES_FACTURES}) f WHERE ...
 // ::float transforme les nombres en nombres JS (sinon Node renvoie parfois du texte).
@@ -18,7 +20,8 @@ const TOUTES_FACTURES = `
          fm.iddestination,
          fm.montantttc::float AS recette,
          fm.poidsreeltotal::float AS poids,
-         fm.nombrecolistotal AS colis
+         fm.nombrecolistotal AS colis,
+         fm.iduser
   FROM public.facturemarchandise fm
   LEFT JOIN LATERAL (
          SELECT tw.modefacturation
@@ -39,7 +42,8 @@ const TOUTES_FACTURES = `
          ff.iddestination,
          ff.montantttcfunerare::float,
          0,
-         0
+         0,
+         ff.iduser
   FROM public.facturefuneraire ff`;
 
 // Filtre commun : dates facultatives ($1, $2) et transport facultatif ($3)

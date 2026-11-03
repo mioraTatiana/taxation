@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { User, LogOut, Menu } from "lucide-react";
+import { User, LogOut, Menu, Pencil } from "lucide-react";
 import "./Layout.css";
 import MenuItem from "../MenuItem/MenuItem";
 import logo from "../../Image/logo.png";
 import { menusDuRole, libelleDuRole } from "./menus";
 import { utilisateurConnecte, deconnecter as effacerConnexion } from "../Outils/api";
+import PopupProfil from "../PopupProfil/PopupProfil";
 
  
 function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOuvert, setMenuOuvert] = useState(false); // tiroir (tablette / téléphone)
+  const [profilOuvert, setProfilOuvert] = useState(false); // pop up "Mon profil"
   const utilisateur = utilisateurConnecte();
  
   if (!utilisateur) {
@@ -62,10 +64,25 @@ function Layout() {
         </div>
  
         <div className="LayoutProfil">
-          <p className="LayoutNom">{utilisateur.nomutilisateur}</p>
-          <p className="LayoutRole">
-            {libelleDuRole(utilisateur.typeutilisateur)}
-          </p>
+          {/* Clic sur le profil : pop up "Mon profil" (nom, email, mot de passe) */}
+          <button
+            type="button"
+            className="LayoutProfilBouton"
+            onClick={() => setProfilOuvert(true)}
+            title="Modifier mon profil"
+          >
+            <div className="LayoutAvatar LayoutAvatarVide">
+              <User size={20} />
+            </div>
+            <p className="LayoutNom">{utilisateur.nomutilisateur}</p>
+            <p className="LayoutRole">
+              {libelleDuRole(utilisateur.typeutilisateur)}
+            </p>
+            <span className="LayoutModifierProfil">
+              <Pencil size={12} />
+              Mon profil
+            </span>
+          </button>
           <button type="button" className="LayoutDeconnexion" onClick={deconnecter}>
             <LogOut size={16} />
             Déconnexion
@@ -94,6 +111,14 @@ function Layout() {
           </div>
         </div>
       </div>
+
+      {profilOuvert && (
+        <PopupProfil
+          utilisateur={utilisateur}
+          onFermer={() => setProfilOuvert(false)}
+          onEnregistre={() => setProfilOuvert(false)}
+        />
+      )}
     </div>
   );
 }

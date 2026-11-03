@@ -163,3 +163,35 @@
     overflow: visible !important;
   }
 }
+
+/* ===== Couleurs de la facture (mêmes que le PDF) =====
+   bleu : titre, en-têtes du tableau, NET A PAYER ; noir : données ; gris : libellés */
+.FactureApercu {
+  color: #212529;
+}
+
+.FactureInfos strong {
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.FactureTableau th {
+  background-color: var(--bleu-titre);
+  color: #ffffff;
+}
+
+.FactureTableau tbody tr:nth-child(even) td {
+  background-color: #f3f6fa;
+}
+
+.FactureTotaux p:last-child {
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--bleu-titre);
+  color: #ffffff;
+}
+
+.FactureArrete {
+  font-style: italic;
+}

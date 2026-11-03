@@ -9,6 +9,7 @@ const usertable = express.Router();
 //   /ajouter et /authentification : tout le monde (pas besoin d'être connecté)
 //   /selectionnertout, /activer, /desactiver : l'admin seulement
 //   /:iduser, /changermotpasse, /modifier : l'utilisateur lui-même (ou l'admin pour /:iduser)
+//   /admin/modifier : l'admin seulement (page Statut)
 
 // Table usertable(iduser, nomutilisateur, typeutilisateur, motpasse, emailutilisateur, statut)
 // iduser est créé par la base : USER01, USER02 ...
@@ -224,7 +225,7 @@ usertable.put("/changermotpasse/:iduser", verifierToken, soiMeme, async (req, re
 
   try {
     if (!(await motPasseCorrect(iduser, ancienmotpasse))) {
-      return res.status(401).json({ message: "L'ancien mot de passe est incorrect" });
+      return res.status(400).json({ message: "L'ancien mot de passe est incorrect" }); // 400 et pas 401 : 401 = session expirée pour le frontend
     }
 
     const motpasseHash = await bcrypt.hash(nouveaumotpasse, 10);
@@ -239,30 +240,97 @@ usertable.put("/changermotpasse/:iduser", verifierToken, soiMeme, async (req, re
 });
 
 
-// 8) Changer les autres informations (nom, email) : il faut confirmer avec le mot de passe
+// 8) "Mon profil" : l'utilisateur change SON nom, SON email et, s'il le veut, SON mot de passe.
+//    Il confirme toujours avec son mot de passe actuel (motpasse).
+//    Il ne peut PAS changer son type d'utilisateur ni son statut (seul l'admin le peut, route 9).
+//    Corps : { nomutilisateur, emailutilisateur, motpasse, nouveaumotpasse (facultatif) }
 usertable.put("/modifier/:iduser", verifierToken, soiMeme, async (req, res) => {
   const iduser = req.params.iduser;
-  const { nomutilisateur, emailutilisateur, motpasse } = req.body;
+  const { nomutilisateur, emailutilisateur, motpasse, nouveaumotpasse } = req.body;
 
   if (!nomutilisateur || !emailutilisateur || !motpasse) {
     return res.status(400).json({
       message: "nomutilisateur, emailutilisateur et motpasse (confirmation) sont obligatoires",
     });
   }
+  if (nouveaumotpasse && nouveaumotpasse.length < 8) {
+    return res.status(400).json({ message: "Le nouveau mot de passe doit contenir au moins 8 caractères" });
+  }
 
   try {
     if (!(await motPasseCorrect(iduser, motpasse))) {
-      return res.status(401).json({ message: "Mot de passe incorrect" });
+      return res.status(400).json({ message: "Mot de passe actuel incorrect" }); // 400 et pas 401 : 401 = session expirée pour le frontend
     }
 
+    // Nouveau mot de passe facultatif : s'il est vide, l'ancien est gardé (COALESCE)
+    const nouveauHash = nouveaumotpasse ? await bcrypt.hash(nouveaumotpasse, 10) : null;
     const result = await pool.query(
-      `UPDATE public.usertable SET nomutilisateur = $1, emailutilisateur = $2
-       WHERE iduser = $3 RETURNING ${COLONNES}`,
-      [nomutilisateur, emailutilisateur, iduser]
+      `UPDATE public.usertable
+       SET nomutilisateur = $1, emailutilisateur = $2, motpasse = COALESCE($3, motpasse)
+       WHERE iduser = $4 RETURNING ${COLONNES}`,
+      [nomutilisateur, emailutilisateur, nouveauHash, iduser]
     );
     res.status(200).json(result.rows[0]);
   } catch (err) {
-    erreurSql(res, err, "Erreur pendant la modification de la table usertable");
+    erreurSql(res, err, "Erreur pendant la modification du profil");
+  }
+});
+
+
+// 9) Page admin "Statut" : l'admin change TOUT sur un compte
+//    (nom, email, type d'utilisateur, statut et, s'il le veut, un nouveau mot de passe).
+//    Il confirme avec SON PROPRE mot de passe d'administrateur (motpasseadmin).
+//    Corps : { nomutilisateur, emailutilisateur, typeutilisateur, statut,
+//              nouveaumotpasse (facultatif), motpasseadmin }
+const TYPES = ["admin", "taxateur", "directeur", "chef de division"];
+const STATUTS = [EN_ATTENTE, ACTIF, DESACTIVE];
+
+usertable.put("/admin/modifier/:iduser", verifierToken, autoriser(ADMIN), async (req, res) => {
+  const iduser = req.params.iduser;
+  const { nomutilisateur, emailutilisateur, typeutilisateur, statut, nouveaumotpasse, motpasseadmin } = req.body;
+
+  if (!nomutilisateur || !emailutilisateur || !typeutilisateur || !statut || !motpasseadmin) {
+    return res.status(400).json({
+      message: "Nom, email, type, statut et votre mot de passe d'administrateur sont obligatoires",
+    });
+  }
+  if (!TYPES.includes(typeutilisateur)) {
+    return res.status(400).json({ message: `Type d'utilisateur inconnu : ${typeutilisateur}` });
+  }
+  if (!STATUTS.includes(statut)) {
+    return res.status(400).json({ message: `Statut inconnu : ${statut}` });
+  }
+  if (nouveaumotpasse && nouveaumotpasse.length < 8) {
+    return res.status(400).json({ message: "Le nouveau mot de passe doit contenir au moins 8 caractères" });
+  }
+
+  // L'admin ne peut pas se bloquer lui-même
+  if (iduser === req.utilisateur.iduser && (typeutilisateur !== ADMIN || statut !== ACTIF)) {
+    return res.status(400).json({
+      message: "Vous ne pouvez pas retirer votre propre rôle d'administrateur ni désactiver votre compte",
+    });
+  }
+
+  try {
+    // Confirmation avec le mot de passe de l'admin connecté (pas celui du compte modifié)
+    if (!(await motPasseCorrect(req.utilisateur.iduser, motpasseadmin))) {
+      return res.status(400).json({ message: "Votre mot de passe d'administrateur est incorrect" }); // 400 et pas 401 : 401 = session expirée pour le frontend
+    }
+
+    const nouveauHash = nouveaumotpasse ? await bcrypt.hash(nouveaumotpasse, 10) : null;
+    const result = await pool.query(
+      `UPDATE public.usertable
+       SET nomutilisateur = $1, emailutilisateur = $2, typeutilisateur = $3, statut = $4,
+           motpasse = COALESCE($5, motpasse)
+       WHERE iduser = $6 RETURNING ${COLONNES}`,
+      [nomutilisateur, emailutilisateur, typeutilisateur, statut, nouveauHash, iduser]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Aucun utilisateur trouvé" });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    erreurSql(res, err, "Erreur pendant la modification de l'utilisateur");
   }
 });
 

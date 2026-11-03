@@ -1,7 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config({ quiet: true }); // lit le fichier .env AVANT de charger les routes
-const { verifierToken, ecriturePour, ADMIN, TAXATEUR } = require("./Route/Securite/auth");
+const {
+  verifierToken,
+  ecriturePour,
+  autoriser,
+  ADMIN,
+  TAXATEUR,
+  DIRECTEUR,
+  CHEF_DIVISION,
+} = require("./Route/Securite/auth");
 const app = express();
 
 app.use(express.json());
@@ -18,11 +26,20 @@ app.use(cors());
 // ----- Utilisateurs (inscription et connexion publiques, le reste protégé) -----
 app.use("/user", require("./Route/Login/usertable"));
 
-// ----- Admin : seul l'admin modifie ; tout le monde connecté lit (le taxateur en a besoin) -----
-app.use("/zone", verifierToken, ecriturePour(ADMIN), require("./Route/Admin/zonedestination"));
-app.use("/destination", verifierToken, ecriturePour(ADMIN), require("./Route/Admin/destination"));
-app.use("/typewagon", verifierToken, ecriturePour(ADMIN), require("./Route/Admin/typewagon"));
-app.use("/wagon", verifierToken, ecriturePour(ADMIN), require("./Route/Admin/wagon"));
+// ----- Zone, destination, wagon, type de wagon : seul le CHEF DE DIVISION modifie ;
+//       tout le monde connecté lit (le taxateur en a besoin pour les factures) -----
+app.use("/zone", verifierToken, ecriturePour(CHEF_DIVISION), require("./Route/Admin/zonedestination"));
+app.use("/destination", verifierToken, ecriturePour(CHEF_DIVISION), require("./Route/Admin/destination"));
+app.use("/typewagon", verifierToken, ecriturePour(CHEF_DIVISION), require("./Route/Admin/typewagon"));
+app.use("/wagon", verifierToken, ecriturePour(CHEF_DIVISION), require("./Route/Admin/wagon"));
+
+// ----- Qui a enregistré les factures : admin, directeur et chef de division (lecture seule) -----
+app.use(
+  "/enregistrement",
+  verifierToken,
+  autoriser(ADMIN, DIRECTEUR, CHEF_DIVISION),
+  require("./Route/Admin/enregistrement")
+);
 
 // ----- Taxateur : le taxateur (et l'admin) modifient ; tout le monde connecté lit -----
 app.use("/client", verifierToken, ecriturePour(TAXATEUR, ADMIN), require("./Route/Taxateur/client"));

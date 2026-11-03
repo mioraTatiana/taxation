@@ -14,6 +14,8 @@ import {
   Boxes,
   Flower2,
   ReceiptText,
+  ClipboardList,
+  UserCog,
 } from "lucide-react";
 
 // Pour ajouter un menu : ajoutez simplement une ligne dans la liste du rôle concerné.
@@ -21,29 +23,39 @@ import {
 
 const MENUS_ADMIN = [
   { texte: "Utilisateur", chemin: "/admin/utilisateur", icone: Users },
-
+  { texte: "Statut", chemin: "/admin/statut", icone: UserCog },
+  { texte: "Enregistrement facture", chemin: "/admin/enregistrement-facture", icone: ClipboardList },
 ];
 
 const MENUS_TAXATEUR = [
   { texte: "Nouvelle facture", chemin: "/taxateur/nouvelle-facture", icone: FilePlus },
-  { texte: "Facture marchandise", chemin: "/taxateur/facture", icone: FileText },
- { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
+  { texte: "Facture", chemin: "/taxateur/facture", icone: FileText },
   { texte: "Transport funéraire", chemin: "/taxateur/transport-funeraire", icone: Flower2 },
+  { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
   { texte: "Client", chemin: "/taxateur/client", icone: Users },
   { texte: "Marchandise", chemin: "/taxateur/marchandise", icone: Package },
   { texte: "Type de marchandise", chemin: "/taxateur/type-marchandise", icone: Boxes },
   { texte: "Tarif", chemin: "/taxateur/tarif", icone: CreditCard },
   { texte: "Tarif funéraire", chemin: "/taxateur/tarif-funeraire", icone: ReceiptText },
-    { texte: "Zone", chemin: "/taxateur/zone", icone: MapPin },
-  { texte: "Destination", chemin: "/taxateur/destination", icone: Signpost },
-  { texte: "Wagon", chemin: "/taxateur/wagon", icone: TrainFront },
-  { texte: "Type de wagon", chemin: "/taxateur/type-wagon", icone: Tags },
 ];
 
+// Directeur
 const MENUS_DIRECTION = [
   { texte: "Recette", chemin: "/direction/recette", icone: Wallet },
   { texte: "Statistique", chemin: "/direction/statistique", icone: BarChart3 },
   { texte: "Tableau de bord", chemin: "/direction/tableau-de-bord", icone: LayoutDashboard },
+  // Même page que celle de l'admin (lecture seule : qui a enregistré les factures)
+  { texte: "Enregistrement facture", chemin: "/admin/enregistrement-facture", icone: ClipboardList },
+];
+
+// Chef de division : les menus du directeur + Zone, Destination, Wagon, Type de wagon
+// (lui seul peut les modifier, voir backend/server.js)
+const MENUS_CHEF_DIVISION = [
+  ...MENUS_DIRECTION,
+  { texte: "Zone", chemin: "/chef-division/zone", icone: MapPin },
+  { texte: "Destination", chemin: "/chef-division/destination", icone: Signpost },
+  { texte: "Wagon", chemin: "/chef-division/wagon", icone: TrainFront },
+  { texte: "Type de wagon", chemin: "/chef-division/type-wagon", icone: Tags },
 ];
 
 // La clé = valeur de "typeutilisateur" en base
@@ -52,7 +64,7 @@ export const MENUS = {
   admin: MENUS_ADMIN,
   taxateur: MENUS_TAXATEUR,
   directeur: MENUS_DIRECTION,
-  chef_division: MENUS_DIRECTION,
+  chef_division: MENUS_CHEF_DIVISION,
 };
 
 export const LIBELLES_ROLES = {
