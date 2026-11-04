@@ -6,6 +6,8 @@ import "./FactureColis.css";
 import CustomInput from "../../../../Simple composants/Input/Input";
 import SelectInput from "../../../../Simple composants/SelectInput/SelectInput";
 import Popup from "../../../../Simple composants/Popup/Popup";
+import BouttonNouveau from "../../../../Simple composants/BouttonNouveau/BouttonNouveau";
+import PopupMarchandise from "../../../../Simple composants/PopupMarchandise/PopupMarchandise";
 import BarreNavigation from "../../../../Simple composants/BarreNavigation/BarreNavigation";
 import BarreProgression from "../../../../Simple composants/BarreProgression/BarreProgression";
 import EnteteSection from "../../../../Simple composants/EnteteSection/EnteteSection";
@@ -34,6 +36,7 @@ import {
 //    - les marchandises ajoutées ont un tarif 0 et augmentent les colis / le poids de la 1re ligne
 //    - le poids chargé ne doit pas dépasser 10 000 kg (série 100) ou 15 000 kg (série 400)
 //  Une marchandise ajoutée deux fois : ses colis et ses poids sont additionnés.
+//  Marchandise absente de la base : bouton "Nouvelle marchandise" (même pop up que la page Marchandise).
 
 const FORMULAIRE_VIDE = { idmarchandise: "", nombrecolis: "" };
 
@@ -53,11 +56,13 @@ function FactureColis({
   typeMarchandiseWagon,
   tarifWagon,
   marchandises,
+  typesMarchandise,
   tarifs,
   lignes,
   facture,
   enregistrementEnCours,
   onChangeLignes,
+  onMarchandiseAjoutee,
   onRetour,
   onAnnuler,
   onEnregistrer,
@@ -65,6 +70,7 @@ function FactureColis({
   const [formulaire, setFormulaire] = useState(FORMULAIRE_VIDE);
   const [idModif, setIdModif] = useState(null); // idmarchandise de la ligne en cours de modification
   const [confirmation, setConfirmation] = useState(null); // { type: "supprimer", idmarchandise } ou { type: "effacer" }
+  const [popupMarchandise, setPopupMarchandise] = useState(false); // pop up "Nouvelle marchandise"
 
   const wagonComplet = estWagonComplet(typeWagon);
   const avecTva = embarquement.tva === "avec";
@@ -97,6 +103,11 @@ function FactureColis({
     .filter((ligne) => ligne.idmarchandise !== idModif)
     .reduce((total, ligne) => total + ligne.poidsreel, 0);
   const pourcentageWagon = poidsMax > 0 ? (poidsCharge / poidsMax) * 100 : 0;
+
+  // Types proposés pour une nouvelle marchandise : les mêmes règles de TVA que la liste
+  const typesAutorises = wagonComplet
+    ? typesMarchandise
+    : typesMarchandise.filter((type) => Boolean(type.soumistva) === avecTva);
 
   const optionsMarchandises = marchandisesAutorisees.map((m) => ({
     value: String(m.idmarchandise),
@@ -152,6 +163,13 @@ function FactureColis({
       toast.success(dejaPresente ? "Marchandise déjà présente : les poids ont été additionnés" : "Marchandise ajoutée");
     }
     reinitialiserFormulaire();
+  }
+
+  // La nouvelle marchandise est enregistrée dans la base : on l'ajoute à la liste et on la sélectionne
+  function apresAjoutMarchandise(nouvelle) {
+    setPopupMarchandise(false);
+    onMarchandiseAjoutee(nouvelle);
+    setFormulaire({ ...formulaire, idmarchandise: String(nouvelle.idmarchandise) });
   }
 
   // Modifier : renvoie les données de la ligne dans le formulaire
@@ -225,6 +243,15 @@ function FactureColis({
             placeholder="Sélectionner une désignation"
             searchPlaceholder="Rechercher..."
           />
+
+          {/* Marchandise absente de la liste : on l'ajoute dans la base sans quitter la facture.
+              Caché dès qu'une désignation est sélectionnée (la marchandise existe déjà) */}
+          {idModif === null && !formulaire.idmarchandise && (
+            <div className="ColisNouvelleMarchandise">
+              <span>La marchandise n’est pas dans la liste ?</span>
+              <BouttonNouveau texte="Nouvelle marchandise" onClick={() => setPopupMarchandise(true)} />
+            </div>
+          )}
 
           <CustomInput
             type="text"
@@ -317,6 +344,16 @@ function FactureColis({
 
       {/* Pas de bouton Suivant dans cette section */}
       <BarreNavigation onRetour={onRetour} onAnnuler={onAnnuler} />
+
+      {popupMarchandise && (
+        <PopupMarchandise
+          marchandise={null}
+          typesMarchandise={typesAutorises}
+          valeursDepart={typesAutorises.length === 1 ? { idtypemarchandise: String(typesAutorises[0].idtypemarchandise) } : {}}
+          onEnregistre={apresAjoutMarchandise}
+          onFermer={() => setPopupMarchandise(false)}
+        />
+      )}
 
       {confirmation && (
         <Popup

@@ -82,7 +82,7 @@ function somme(lignes, champ) {
 //                  (c'est la 1re ligne, la ligne "wagon", qui porte le prix)
 export function creerLigne({ marchandise, nombrecolis, tarif, typeWagon, idwagon }) {
   const wagonComplet = estWagonComplet(typeWagon);
-  const poidsreel = arrondir2(nombrecolis * marchandise.poidscolis); // nombre de colis x poids d'un colis
+  const poidsreel = arrondir2(nombrecolis * marchandise.poidscolis);                                                                      // nombre de colis x poids d'un colis
   const poidsfacture = wagonComplet ? typeWagon.poidsfacturation : poidsreel;
   const prixapplicable = wagonComplet ? 0 : tarif.prixkg;
 
@@ -172,6 +172,7 @@ export function lignesImprimees(facture) {
 // Totaux de la facture (noms des colonnes de la table facturemarchandise).
 //  lignesFacturees : Express = toutes les lignes ; wagon complet = [ligne du wagon]
 //  Express : minimum 20 kg. En dessous, les kilos manquants sont facturés au prix le plus élevé des lignes.
+
 export function calculerTotaux(lignesFacturees, wagonComplet, avecTva) {
   const nombrecolistotal = somme(lignesFacturees, "nombrecolis");
   const poidsreeltotal = arrondir2(somme(lignesFacturees, "poidsreel"));
@@ -181,7 +182,7 @@ export function calculerTotaux(lignesFacturees, wagonComplet, avecTva) {
   if (!wagonComplet && lignesFacturees.length > 0 && poidsreeltotal < POIDS_MINIMUM_EXPRESS) {
     const prixMax = Math.max(...lignesFacturees.map((ligne) => ligne.prixapplicable));
     montanthttotal += (POIDS_MINIMUM_EXPRESS - poidsreeltotal) * prixMax;
-    poidsfacturetotal = POIDS_MINIMUM_EXPRESS;
+    poidsfacturetotal = POIDS_MINIMUM_EXPRESS ;
   }
 
   montanthttotal = arrondir2(montanthttotal);
@@ -195,7 +196,7 @@ export function calculerTotaux(lignesFacturees, wagonComplet, avecTva) {
     montanthttotal,
     tva,
     piquiremarchandise,
-    // montantttc = montant HT + TVA + piquire, arrondi (voir arrondirTTC)
+    
     montantttc: arrondirTTC(montanthttotal + tva + piquiremarchandise),
   };
 }

@@ -140,11 +140,8 @@ function Statut() {
 
   return (
     <div>
-      <h2 className="StatutTitre">Statut des utilisateurs</h2>
-      <p className="StatutExplication">
-        Modifiez le nom, l’email, le type d’utilisateur, le statut ou le mot de passe d’un compte.
-        Chaque modification est confirmée avec votre mot de passe d’administrateur.
-      </p>
+      <h2 className="StatutTitre">Utilisateurs</h2>
+    
 
       <TableDonnees
         colonnes={COLONNES}

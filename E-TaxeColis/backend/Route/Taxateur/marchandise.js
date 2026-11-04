@@ -34,11 +34,22 @@ marchandise.post("/ajouter", async (req, res) => {
       return res.status(400).json({ message: `Le type de marchandise ${idtypemarchandise} n'existe pas` });
     }
 
+    // Une désignation déjà enregistrée (sans tenir compte des majuscules) est refusée
+    const doublon = await pool.query(
+      "SELECT 1 FROM public.marchandise WHERE LOWER(TRIM(designation)) = LOWER(TRIM($1))",
+      [designation]
+    );
+    if (doublon.rows.length > 0) {
+      return res.status(409).json({ message: `La marchandise "${designation}" existe déjà` });
+    }
+
     const result = await pool.query(
-      "INSERT INTO public.marchandise (designation, poidscolis, idtypemarchandise) VALUES ($1, $2, $3) RETURNING *",
+      "INSERT INTO public.marchandise (designation, poidscolis, idtypemarchandise) VALUES ($1, $2, $3) RETURNING idmarchandise",
       [designation, poidscolis, idtypemarchandise]
     );
-    res.status(201).json(result.rows[0]);
+    // On renvoie la marchandise avec le libellé du type et la TVA (utile pour la nouvelle facture)
+    const ajoutee = await pool.query(`${SELECT_BASE} WHERE m.idmarchandise = $1`, [result.rows[0].idmarchandise]);
+    res.status(201).json(ajoutee.rows[0]);
   } catch (err) {
     res.status(500).json({ message: "Erreur lors de l'ajout dans la table marchandise", erreur: err.message });
   }

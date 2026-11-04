@@ -155,7 +155,7 @@ function Utilisateurs() {
 
   return (
     <div>
-      <h2 className="UtilisateursTitre">Utilisateurs</h2>
+      <h2 className="UtilisateursTitre">Activation des utilisateurs</h2>
 
       <TableDonnees
         colonnes={COLONNES}

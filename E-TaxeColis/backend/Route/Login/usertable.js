@@ -100,7 +100,7 @@ usertable.post("/authentification", async (req, res) => {
       [emailutilisateur]
     );
 
-    // Même message si l'email ou le mot de passe est faux (on ne dit pas lequel)
+                                                                                                                                          // Même message si l'email ou le mot de passe est faux (on ne dit pas lequel)
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "E-mail ou mot de passe incorrect" });
     }

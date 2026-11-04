@@ -22,20 +22,20 @@ import {
 // icone = composant Lucide, chemin = route dans App.jsx
 
 const MENUS_ADMIN = [
-  { texte: "Utilisateur", chemin: "/admin/utilisateur", icone: Users },
-  { texte: "Statut", chemin: "/admin/statut", icone: UserCog },
+  { texte: "Activation", chemin: "/admin/utilisateur", icone: UserCog },
+  { texte: "Utilisateur", chemin: "/admin/statut", icone: Users },
   { texte: "Enregistrement facture", chemin: "/admin/enregistrement-facture", icone: ClipboardList },
 ];
 
 const MENUS_TAXATEUR = [
   { texte: "Nouvelle facture", chemin: "/taxateur/nouvelle-facture", icone: FilePlus },
-  { texte: "Facture", chemin: "/taxateur/facture", icone: FileText },
-  { texte: "Transport funéraire", chemin: "/taxateur/transport-funeraire", icone: Flower2 },
   { texte: "Statistique", chemin: "/taxateur/statistique", icone: BarChart3 },
+  { texte: "Facture marchandise", chemin: "/taxateur/facture", icone: FileText },
+  { texte: "Transport funéraire", chemin: "/taxateur/transport-funeraire", icone: Flower2 },
   { texte: "Client", chemin: "/taxateur/client", icone: Users },
   { texte: "Marchandise", chemin: "/taxateur/marchandise", icone: Package },
   { texte: "Type de marchandise", chemin: "/taxateur/type-marchandise", icone: Boxes },
-  { texte: "Tarif", chemin: "/taxateur/tarif", icone: CreditCard },
+  { texte: "Tarif marchandise", chemin: "/taxateur/tarif", icone: CreditCard },
   { texte: "Tarif funéraire", chemin: "/taxateur/tarif-funeraire", icone: ReceiptText },
 ];
 

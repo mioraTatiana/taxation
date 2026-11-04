@@ -183,6 +183,11 @@ function NouvelleFacture() {
     modifier({ client: nouveau });
   }
 
+  // Nouvelle marchandise ajoutée depuis la section "Colis à expédier"
+  function marchandiseAjoutee(nouvelle) {
+    setDonnees((ancien) => ({ ...ancien, marchandises: [...ancien.marchandises, nouvelle] }));
+  }
+
   // Étape 2 -> 3. Si l'embarquement a changé, les marchandises déjà saisies ne sont plus valables.
   function validerEmbarquement() {
     const instantane = JSON.stringify(embarquement);
@@ -376,11 +381,13 @@ function NouvelleFacture() {
             typeMarchandiseWagon={typeMarchandiseWagon}
             tarifWagon={tarifWagon}
             marchandises={donnees.marchandises}
+            typesMarchandise={donnees.typesMarchandise}
             tarifs={donnees.tarifs}
             lignes={lignes}
             facture={factureMarchandise}
             enregistrementEnCours={progression !== null}
             onChangeLignes={(nouvelles) => modifier({ lignes: nouvelles })}
+            onMarchandiseAjoutee={marchandiseAjoutee}
             onRetour={() => modifier({ etape: 2 })}
             onAnnuler={() => setConfirmerAnnulation(true)}
             onEnregistrer={enregistrerFacture}
