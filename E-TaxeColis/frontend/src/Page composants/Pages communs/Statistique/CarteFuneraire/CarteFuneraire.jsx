@@ -13,7 +13,7 @@ function CarteFuneraire({ facture }) {
           <p><strong>Numéro :</strong> {facture.numfacturefuneraire}</p>
         </div>
         <div>
-          <p><strong>Client :</strong> {facture.nomclient}</p>
+          <p><strong>Client :</strong> {facture.nomclient}{facture.sigle ? ` (${facture.sigle})` : ""}</p>
           <p><strong>Défunt :</strong> {facture.nomdefunt}</p>
         </div>
       </div>

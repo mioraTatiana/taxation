@@ -33,6 +33,14 @@ function couper(texte, maximum) {
   return t.length > maximum ? t.slice(0, maximum - 3) + "..." : t;
 }
 
+// Nom du client suivi de son sigle, ex : "Jean Rakoto (JR)". Le nom est raccourci en premier,
+// pour que le sigle reste toujours visible.
+function clientAvecSigle(f, maximum) {
+  if (!f.sigle) return couper(f.nomclient, maximum);
+  const sigle = ` (${f.sigle})`;
+  return couper(f.nomclient, maximum - sigle.length) + sigle;
+}
+
 // "Libellé" en gris, puis la valeur en noir (gras)
 function info(doc, libelle, valeur, x, y) {
   doc.setFont("helvetica", "normal");
@@ -93,7 +101,7 @@ function dessinerInfos(doc, f, x, largeur, y, troisieme) {
   doc.roundedRect(x, y, largeur, hauteur, 1.5, 1.5, "FD");
 
   const colonne = largeur / 2;
-  info(doc, "Client", couper(f.nomclient, 34), x + 3, y + 5);
+  info(doc, "Client", clientAvecSigle(f, 34), x + 3, y + 5);
   info(doc, "Téléphone", f.telephone, x + colonne, y + 5);
   info(doc, "Destination", couper(`${f.nomdestination} – ${f.libellezone}`, 34), x + 3, y + 14);
   info(doc, troisieme.libelle, couper(troisieme.valeur, 30), x + colonne, y + 14);

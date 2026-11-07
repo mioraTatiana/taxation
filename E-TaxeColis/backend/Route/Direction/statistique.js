@@ -21,7 +21,7 @@ statistique.get("/marchandise", async (req, res) => {
               to_char(f.datefacturemarchandise, 'YYYY-MM-DD') AS datefacturemarchandise,
               f.nombrecolistotal, f.poidsreeltotal, f.poidsfacturetotal,
               f.piquiremarchandise, f.tva, f.montanthttotal, f.montantttc,
-              c.nomclient, c.telephone, c.adresse,
+              c.nomclient, c.telephone, c.adresse,C.sigle,
               d.nomdestination, z.libellezone,
               w.libelletypewagon, w.modefacturation, w.poidsfacturation
        FROM public.facturemarchandise f
@@ -82,7 +82,7 @@ statistique.get("/funeraire", (req, res) => {
     SELECT f.idfacturefuneraire, f.numfacturefuneraire,
            to_char(f.datefacturefuneraire, 'YYYY-MM-DD') AS datefacturefuneraire,
            f.piquirefuneraire, f.montanthttfuneraire, f.montantttcfunerare, f.nomdefunt,
-           c.nomclient, c.telephone, c.adresse,
+           c.nomclient, c.telephone, c.adresse,c.sigle,
            d.nomdestination, z.libellezone
     FROM public.facturefuneraire f
     JOIN public.client c ON c.idclient = f.idclient

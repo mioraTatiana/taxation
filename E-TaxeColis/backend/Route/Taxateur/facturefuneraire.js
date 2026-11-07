@@ -33,7 +33,7 @@ const SELECT_BASE = `
          to_char(f.datefacturefuneraire, 'YYYY-MM-DD') AS datefacturefuneraire,
          f.piquirefuneraire, f.montanthttfuneraire, f.montantttcfunerare, f.nomdefunt,
          f.idclient, f.iddestination, f.iduser,
-         c.nomclient, c.telephone, c.adresse,
+         c.nomclient, c.sigle, c.telephone, c.adresse,
          d.nomdestination, z.libellezone
   FROM public.facturefuneraire f
   JOIN public.client c ON c.idclient = f.idclient

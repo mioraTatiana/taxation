@@ -14,7 +14,7 @@ function CarteFacture({ facture }) {
           <p><strong>Numéro :</strong> {facture.numfacturemarchandise}</p>
         </div>
         <div>
-          <p><strong>Client :</strong> {facture.nomclient}</p>
+          <p><strong>Client :</strong> {facture.nomclient}{facture.sigle ? ` (${facture.sigle})` : ""}</p>
           <p><strong>Wagon :</strong> {facture.libelletypewagon}</p>
         </div>
       </div>

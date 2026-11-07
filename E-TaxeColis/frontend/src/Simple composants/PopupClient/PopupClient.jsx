@@ -130,7 +130,7 @@ function PopupClient({ client, valeursDepart, onEnregistre, onFermer }) {
       onFermer={onFermer}
     >
       <CustomInput type="text" label="Nom du client" name="nomclient" value={formulaire.nomclient} onChange={changerChamp} required />
-      <CustomInput type="text" label="Sigle" name="sigle" value={formulaire.sigle} onChange={changerChamp} />
+      <CustomInput type="text" label="Sigle" name="sigle" value={formulaire.sigle} onChange={changerChamp} required/>
       <CustomInput type="text" label="CIN" name="cin" value={formaterCIN(formulaire.cin)} onChange={changerChamp} />
       <CustomInput
         type="tel"

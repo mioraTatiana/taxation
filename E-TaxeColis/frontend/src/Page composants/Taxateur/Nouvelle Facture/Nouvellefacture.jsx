@@ -141,6 +141,7 @@ function NouvelleFacture() {
   // Informations communes affichées sur les factures
   const enteteFacture = {
     nomclient: client ? client.nomclient : "",
+    sigle: client ? client.sigle : "",
     telephone: client ? client.telephone : "",
     adresse: client ? client.adresse : "",
     nomdestination: destination ? destination.nomdestination : "",

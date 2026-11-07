@@ -25,6 +25,11 @@ function texteDePeriode(debut, fin) {
   return `Du ${formaterDate(debut)} au ${formaterDate(fin)}`;
 }
 
+// Nom du client suivi de son sigle (colonne sigle de la table client), ex : "Jean Rakoto (JR)"
+function clientAvecSigle(facture) {
+  return facture.sigle ? `${facture.nomclient} (${facture.sigle})` : facture.nomclient;
+}
+
 // Titre d'une partie (ex: "Factures des marchandises")
 function titrePartie(doc, texte, y, marge, droite) {
   doc.setFont("helvetica", "bold");
@@ -95,7 +100,7 @@ export async function genererPdfStatistique({ marchandises, funeraires, destinat
         doc.setTextColor(0, 0, 0);
         doc.setFontSize(10);
         ligneInfo(doc, "Destination :", `${facture.nomdestination} (${facture.libellezone})`, marge, y);
-        ligneInfo(doc, "Client :", facture.nomclient, largeurPage / 2 + 5, y);
+        ligneInfo(doc, "Client :", clientAvecSigle(facture), largeurPage / 2 + 5, y);
         ligneInfo(doc, "Numéro :", facture.numfacturemarchandise, marge, y + 5);
         ligneInfo(doc, "Wagon :", facture.libelletypewagon, largeurPage / 2 + 5, y + 5);
 
@@ -175,7 +180,7 @@ export async function genererPdfStatistique({ marchandises, funeraires, destinat
       y = titreDate(doc, groupe.date, y, marge);
 
       const lignes = groupe.factures.map((f) => {
-        const debutLigne = [f.numfacturefuneraire, f.nomclient, f.nomdefunt, `${f.nomdestination} (${f.libellezone})`];
+        const debutLigne = [f.numfacturefuneraire, clientAvecSigle(f), f.nomdefunt, `${f.nomdestination} (${f.libellezone})`];
         return masquerMontants
           ? debutLigne
           : [...debutLigne, nombre(f.montanthttfuneraire), nombre(f.piquirefuneraire), nombre(f.montantttcfunerare)];

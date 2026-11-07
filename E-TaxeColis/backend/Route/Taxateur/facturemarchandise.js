@@ -32,7 +32,7 @@ const SELECT_FACTURE = `
          to_char(f.datefacturemarchandise, 'YYYY-MM-DD') AS datefacturemarchandise,
          f.nombrecolistotal, f.poidsreeltotal, f.poidsfacturetotal, f.piquiremarchandise,
          f.tva, f.montanthttotal, f.montantttc, f.idclient, f.iddestination, f.iduser,
-         c.nomclient, d.nomdestination
+         c.nomclient, c.sigle, d.nomdestination
   FROM public.facturemarchandise f
   JOIN public.client c ON c.idclient = f.idclient
   JOIN public.destination d ON d.iddestination = f.iddestination`;
@@ -44,7 +44,7 @@ const SELECT_FACTURE_COMPLETE = `
          to_char(f.datefacturemarchandise, 'YYYY-MM-DD') AS datefacturemarchandise,
          f.nombrecolistotal, f.poidsreeltotal, f.poidsfacturetotal, f.piquiremarchandise,
          f.tva, f.montanthttotal, f.montantttc, f.idclient, f.iddestination, f.iduser,
-         c.nomclient, c.telephone, c.adresse,
+         c.nomclient, c.sigle, c.telephone, c.adresse,
          d.nomdestination, z.libellezone,
          w.libelletypewagon, w.modefacturation, w.poidsfacturation
   FROM public.facturemarchandise f

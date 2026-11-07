@@ -39,7 +39,7 @@ function FactureApercu({ facture, onModifier, onSupprimer, texteAction, onAction
           <div className="FactureInfos">
             <p><strong>Destination :</strong> {facture.nomdestination} - {facture.libellezone}</p>
             <p><strong>Wagon :</strong> {facture.libelletypewagon}</p>
-            <p><strong>Client :</strong> {facture.nomclient}</p>
+            <p><strong>Client :</strong> {facture.nomclient}{facture.sigle ? ` (${facture.sigle})` : ""}</p>
             <p><strong>Tél :</strong> {facture.telephone}</p>
             <p><strong>Adresse :</strong> {facture.adresse}</p>
             <p><strong>Num :</strong> {facture.numfacturemarchandise || "—"} &nbsp; {dateAffichee}</p>
