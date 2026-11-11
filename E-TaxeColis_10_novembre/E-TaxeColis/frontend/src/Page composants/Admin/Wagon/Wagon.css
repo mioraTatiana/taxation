@@ -1,0 +1,11 @@
+.WagonTitre {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+@media (max-width: 576px) {
+  .WagonTitre {
+    font-size: 18px;
+  }
+}

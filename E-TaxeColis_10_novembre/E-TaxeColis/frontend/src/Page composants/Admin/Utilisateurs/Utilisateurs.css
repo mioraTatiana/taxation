@@ -1,0 +1,24 @@
+.UtilisateursTitre {
+  margin: 0 0 24px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+@media (max-width: 576px) {
+  .UtilisateursTitre {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+}
+/* Recherche par nom + filtre statut */
+.UtilisateursFiltres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  margin-bottom: 8px;
+}
+
+.UtilisateursFiltres .ChampRecherche {
+  margin: 0;
+}

@@ -1,0 +1,40 @@
+.ChampRecherche {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+  padding: 8px 12px;
+  margin: 0 0 14px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+.ChampRecherche:focus-within {
+  border-color: #0a6cc9;
+  box-shadow: 0 0 0 3px rgba(10, 108, 201, 0.12);
+}
+
+.ChampRecherche input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.ChampRecherche button {
+  display: flex;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ChampRechercheIcone {
+  color: #6b7280;
+  flex-shrink: 0;
+}

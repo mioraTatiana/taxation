@@ -1,0 +1,22 @@
+.ModifierFactureInfo {
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+
+/* Formulaire à gauche, facture à droite ; l'un sous l'autre sur petit écran */
+.ModifierFactureCorps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  text-align: left;
+}
+
+.ModifierFactureFormulaire {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.ModifierFactureApercu {
+  flex: 1 1 420px;
+  min-width: 0;
+}

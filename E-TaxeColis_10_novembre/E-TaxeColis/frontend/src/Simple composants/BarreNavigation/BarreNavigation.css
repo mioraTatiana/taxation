@@ -1,0 +1,60 @@
+.BarreNavigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.NavDroite {
+  display: flex;
+  gap: 12px;
+}
+
+.NavRetour,
+.NavAnnuler,
+.NavSuivant {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--bleu);
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Flèche retour : bleue (et non orange) */
+.NavRetour {
+  padding: 7px 10px;
+  background-color: #ffffff;
+  color: var(--bleu);
+}
+
+.NavAnnuler {
+  background-color: #ffffff;
+  color: var(--bleu);
+}
+
+.NavSuivant {
+  background-color: var(--bleu);
+  color: #ffffff;
+}
+
+.NavRetour:hover,
+.NavAnnuler:hover {
+  background-color: var(--fond-survol);
+}
+
+.NavSuivant:hover {
+  filter: brightness(1.1);
+}
+
+@media (max-width: 576px) {
+  .NavRetour,
+  .NavAnnuler,
+  .NavSuivant {
+    padding: 10px 14px;
+  }
+}

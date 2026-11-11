@@ -1,0 +1,30 @@
+.EnteteSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.EnteteSectionIcone {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: var(--bleu-titre);
+  color: #ffffff;
+}
+
+.EnteteSectionTitre {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bleu-titre);
+}
+
+.EnteteSectionSousTitre {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--bleu-titre);
+}

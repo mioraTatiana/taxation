@@ -1,0 +1,49 @@
+.StatutTitre {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.StatutExplication {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Petite étiquette de couleur pour le statut */
+.StatutEtiquette {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.StatutActif {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.StatutAttente {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.StatutDesactive {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.StatutSeparateur {
+  margin: 14px 0 4px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+@media (max-width: 576px) {
+  .StatutTitre {
+    font-size: 18px;
+  }
+}
